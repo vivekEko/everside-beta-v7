@@ -141,7 +141,9 @@ const Clinics3 = () => {
             <table className="">
               <thead className=" sticky top-0 bg-white">
                 <tr className="text-xs text-gray-400   shadow">
-                  <th className=" font-normal text-left  px-1">Type</th>
+                  <th className=" font-normal text-left  px-1 text-white">
+                    Type
+                  </th>
                   <th className=" font-normal text-left  px-1">Name</th>
                   <th className=" font-normal text-left px-1">
                     Top Positive Topic
