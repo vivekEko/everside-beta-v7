@@ -23,7 +23,9 @@ import NPSallComments3 from "./NPSallComments3";
 import AlertComments2 from "./AlertComments2";
 import Clinics2 from "./Clinics2";
 import Providers2 from "./Providers2";
-import Clients2 from "./Clients2";
+import Clients3 from "./Clients3";
+import Providers3 from "./Providers3";
+import Clinics3 from "./Clinics3";
 
 const NPSOverall = () => {
   return (
@@ -47,11 +49,11 @@ const NPSOverall = () => {
       <section className="my-[8px]  w-full  grid grid-cols-1  xl:grid-cols-2 gap-2">
         <NPSvsSentiment />
         {/* <HealthProfessionals /> */}
-        <Providers2 />
-        <Clinics2 />
+        <Providers3 />
+        <Clinics3 />
         {/* <Clinics /> */}
         {/* <Clients /> */}
-        <Clients2 />
+        <Clients3 />
       </section>
       {/* <CustomCalendar4 /> */}
     </div>

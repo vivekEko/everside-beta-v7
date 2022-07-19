@@ -27,6 +27,7 @@ import endDateValue from "../../../../recoil/atoms/EndDateAtom";
 import endMonthValue from "../../../../recoil/atoms/EndMonth";
 import newRegionGlobalValue from "../../../../recoil/atoms/newRegionGlobalValue";
 import ClinicValue from "../../../../recoil/atoms/ClinicValue";
+import clientValue from "../../../../recoil/atoms/clientValue";
 
 const NPSallComments3 = () => {
   const [inputData, setInputData] = useState("");
@@ -61,6 +62,8 @@ const NPSallComments3 = () => {
     useRecoilState(ClinicValue);
   const [newRegionGlobal, setNewRegionGlobal] =
     useRecoilState(newRegionGlobalValue);
+  const [selectedClientValue, setSelectedClientValue] =
+    useRecoilState(clientValue);
 
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
@@ -244,7 +247,9 @@ const NPSallComments3 = () => {
                   "&region=" +
                   newRegionGlobal +
                   "&clinic=" +
-                  selectedClinicValue
+                  selectedClinicValue +
+                  "&client=" +
+                  selectedClientValue
                 }
               >
                 <FileDownloadOutlinedIcon

@@ -7,6 +7,8 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  ComposedChart,
+  Area,
 } from "recharts";
 import mockApiData from "../../../../mock_API/NPS/NPS Main Dashboard/NSSOverTime.json";
 import { useRecoilState } from "recoil";
@@ -22,26 +24,28 @@ import sentimentOverTimeApiData from "../../../../recoil/atoms/sentimentOverTime
 
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
+import AvgNPSAtom from "../../../../recoil/atoms/AvgNPSAtom";
 
-const NSSOverTime = () => {
+const AvgNPS = () => {
   const [apiData, setApiData] = useState();
+  const [avgNPS, setAvgNPS] = useRecoilState(AvgNPSAtom);
 
   const [nssOverTimeAPIData, setNssOverTimeAPIData] = useRecoilState(
     sentimentOverTimeApiData
   );
 
   useEffect(() => {
-    setApiData(nssOverTimeAPIData);
-    console.log("nssOverTimeAPIData:");
-    console.log(nssOverTimeAPIData);
-  }, [nssOverTimeAPIData]);
+    setApiData(avgNPS);
+    console.log("avgNPS:");
+    console.log(avgNPS);
+  }, [avgNPS]);
 
-  const NSSOverTimeComponent = useRef();
+  const AvgNPSGraphComponent = useRef();
 
   return (
     <div
       className="p-2 md:p-5 w-full border  rounded-lg bg-white flex justify-center md:justify-center items-center "
-      ref={NSSOverTimeComponent}
+      ref={AvgNPSGraphComponent}
     >
       {!apiData && (
         <div className="min-h-[170px] w-full bg-[#ffffff] z-[0] rounded-lg flex justify-center items-center">
@@ -52,8 +56,8 @@ const NSSOverTime = () => {
       {apiData && (
         <div className="w-full">
           <div className="flex justify-between items-center mb-2">
-            <h1 className=" font-bold opacity-80 ">Sentiment Over Time</h1>
-            <button onClick={() => exportComponentAsPNG(NSSOverTimeComponent)}>
+            <h1 className=" font-bold opacity-80 text-[18px] ">Average NPS</h1>
+            <button onClick={() => exportComponentAsPNG(AvgNPSGraphComponent)}>
               <FileDownloadOutlinedIcon
                 fontSize="small"
                 className="text-gray-400"
@@ -62,21 +66,43 @@ const NSSOverTime = () => {
           </div>
 
           <div className="flex justify-end items-center gap-[4px] ">
-            <div className="bg-[#0094E0] h-[10px] w-[10px] rounded-full"></div>
-            <p className="text-[10px]">Sentiments</p>
+            <div className="flex items-center gap-1">
+              <div className="bg-[#474bc3] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Avg NPS</div>
+            </div>
           </div>
 
           {/* Graph */}
           <div className="relative ">
             <ResponsiveContainer width="100%" height={180}>
-              <BarChart
-                data={apiData?.nss_over_time}
+              <ComposedChart
+                data={apiData?.nps_avg}
                 margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
               >
+                <defs>
+                  <linearGradient
+                    id="avgNpsGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop offset="5%" stopColor="#3d41ba" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#3d41ba" stopOpacity={0.05} />
+                  </linearGradient>
+                </defs>
                 <CartesianGrid
                   vertical={false}
                   horizontal={false}
                   opacity={0.5}
+                />
+
+                <Area
+                  type="monotone"
+                  dataKey="NPS"
+                  fill="url(#avgNpsGradient)"
+                  stroke="#474bc3"
+                  strokeWidth={2}
                 />
                 <XAxis
                   dataKey="month"
@@ -88,24 +114,26 @@ const NSSOverTime = () => {
                   textAnchor="middle"
                 />
                 <YAxis
+                  type="number"
+                  domain={["dataMin", "dataMax + 0.005"]}
                   axisLine={false}
                   tickLine={false}
                   fontSize={10}
-                  tickCount={4}
-                  tickFormatter={(number) => `${number}`}
+                  tickFormatter={(number) => `${number.toFixed(2)}`}
                   margin={{ right: 20 }}
                 />
+
                 <Tooltip cursor={false} content={<CustomTooltip />} />
 
-                <Bar
+                {/* <Bar
                   stackId="a"
                   barSize={20}
-                  name="sentiments"
-                  dataKey="nss"
+                  name="Average NPS"
+                  dataKey="NPS"
                   fill="#0094E0"
                   radius={[5, 5, 0, 0]}
-                />
-              </BarChart>
+                /> */}
+              </ComposedChart>
             </ResponsiveContainer>
           </div>
         </div>
@@ -114,7 +142,7 @@ const NSSOverTime = () => {
   );
 };
 
-export default NSSOverTime;
+export default AvgNPS;
 
 function CustomTooltip({ active, payload, label }) {
   if (active) {
@@ -127,7 +155,7 @@ function CustomTooltip({ active, payload, label }) {
           <div key={Math.random()} className="">
             <div className="flex justify-start items-center ">
               <div
-                style={{ background: data?.color }}
+                style={{ background: "#474bc3" }}
                 className={`h-[5px] w-[5px] rounded-full mr-2 `}
               ></div>
               <div className="flex justify-between items-center  w-full">

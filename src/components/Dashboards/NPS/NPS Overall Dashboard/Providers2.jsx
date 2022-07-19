@@ -40,7 +40,7 @@ const Providers2 = () => {
 
           <div className="h-[260px] overflow-y-scroll">
             <div className="sticky bg-white top-0 z-[5] ">
-              <div className="grid grid-cols-[50px_minmax(150px,1fr)_minmax(100px,1fr)_minmax(100px,1fr)_minmax(60px,0.3fr)_minmax(30px,0.3fr)] gap-2 text-xs text-gray-400 border-b py-2">
+              <div className="grid grid-cols-[50px_minmax(150px,1fr)_minmax(100px,1fr)_minmax(100px,1fr)_minmax(30px,0.3fr)_minmax(60px,0.3fr)] gap-1 text-xs text-gray-400 border-b py-2">
                 <div className="flex  items-center">Type</div>
                 <div className="flex  items-center">Name</div>
                 <div className="flex  items-center">Positive Topic</div>
@@ -48,7 +48,7 @@ const Providers2 = () => {
                 <div className="text-center flex justify-center items-center ">
                   Survey Count
                 </div>
-                <div className="text-center flex justify-center items-center ">
+                <div className="text-center flex justify-center items-center border border-blue-500">
                   NPS
                 </div>
               </div>
@@ -58,7 +58,7 @@ const Providers2 = () => {
               {apiData?.data?.map((data, index) => {
                 return (
                   <div key={index} className="">
-                    <div className="grid grid-cols-[50px_minmax(150px,1fr)_minmax(100px,1fr)_minmax(100px,1fr)_minmax(60px,0.3fr)_minmax(30px,0.3fr)] gap-2    py-2 ">
+                    <div className="grid grid-cols-[50px_minmax(150px,1fr)_minmax(100px,1fr)_minmax(100px,1fr)_minmax(30px,0.3fr)_minmax(60px,0.3fr)] gap-1    py-2 ">
                       <div className="rounded-md text-sm  bg-[#e6f5fc] flex justify-center items-center text-[#0094e0] uppercase">
                         {" "}
                         {data?.provider_type}
@@ -78,8 +78,7 @@ const Providers2 = () => {
                       <div className="text-sm text-gray-500 text-center">
                         {data?.count}
                       </div>
-                      <div className="text-sm text-gray-500 text-center">
-                        {" "}
+                      <div className="text-sm text-gray-500 text-center border border-red-500 ">
                         {data?.average_nps}
                       </div>
                     </div>

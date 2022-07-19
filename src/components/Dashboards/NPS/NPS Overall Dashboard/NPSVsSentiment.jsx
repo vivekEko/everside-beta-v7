@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Bar,
   BarChart,
-  // CartesianGrid,
+  CartesianGrid,
   // Cell,
   // LineChart,
   ResponsiveContainer,
@@ -34,6 +34,8 @@ const NPSvsSentiment = () => {
 
   useEffect(() => {
     setApiData(npsVsSentiAPIData);
+    console.log("npsVsSenti:");
+    console.log(npsVsSentiAPIData);
   }, [npsVsSentiAPIData]);
 
   const NPSvsSentimentsComponent = useRef();
@@ -85,14 +87,15 @@ const NPSvsSentiment = () => {
 
           <div className="relative mt-5">
             <ResponsiveContainer width="100%" height={180}>
-              <BarChart data={apiData?.data} layout="vertical">
+              {/* <BarChart data={apiData?.data} layout="vertical">
                 <XAxis
                   type="number"
                   fontSize={12}
                   axisLine={false}
                   tickLine={false}
                   textAnchor="middle"
-                  tickFormatter={(number) => `${number}%`}
+                  tickFormatter={(number) => `${number.toFixed(0)}%`}
+                  domain={[0, 100]}
                 />
                 <YAxis
                   type="category"
@@ -130,6 +133,62 @@ const NPSvsSentiment = () => {
                   style={{ stroke: "#fff", strokeWidth: 2, marginLeft: -15 }}
                 />
                 <Tooltip />
+              </BarChart> */}
+
+              <BarChart
+                data={apiData?.data}
+                margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
+              >
+                <CartesianGrid
+                  vertical={false}
+                  horizontal={false}
+                  opacity={0.5}
+                />
+                <XAxis
+                  dataKey="sentiment_label"
+                  fontSize={12}
+                  axisLine={false}
+                  tickLine={false}
+                  tickCount={10}
+                  angle={0}
+                  textAnchor="middle"
+                />
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
+                  fontSize={10}
+                  tickCount={4}
+                  tickFormatter={(number) => `${number}`}
+                  margin={{ right: 20 }}
+                />
+                <Tooltip cursor={false} content={<CustomTooltip />} />
+                <Bar
+                  // stackId="a"
+                  barSize={20}
+                  name="promoter"
+                  dataKey="promoter"
+                  fill="#00AC69"
+                  radius={[5, 5, 0, 0]}
+                  minPointSize={1}
+                />{" "}
+                <Bar
+                  // stackId="a"
+                  barSize={20}
+                  name="passive"
+                  dataKey="passive"
+                  fill="#4D5552"
+                  radius={[5, 5, 0, 0]}
+                  minPointSize={1}
+                />{" "}
+                <Bar
+                  // stackId="a"
+                  barSize={20}
+                  name="detractor"
+                  dataKey="detractor"
+                  fill="#DB2B39"
+                  radius={[5, 5, 0, 0]}
+                  minPointSize={1}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>

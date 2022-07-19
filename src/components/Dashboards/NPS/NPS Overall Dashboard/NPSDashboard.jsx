@@ -42,6 +42,7 @@ import EngagementModel from "../../EngagementModel/EngagementModel";
 import Admin from "../../../Global/Admin";
 import clientValue from "../../../../recoil/atoms/clientValue";
 import runClientAPIatom from "../../../../recoil/atoms/runClientAPIatom";
+import AvgNPSAtom from "../../../../recoil/atoms/AvgNPSAtom";
 
 const NPSDashboard = () => {
   const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
@@ -50,6 +51,8 @@ const NPSDashboard = () => {
   const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
   const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
   const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
+
+  const [avgNPS, setAvgNPS] = useRecoilState(AvgNPSAtom);
 
   const [positiveCommentAtom, setPositiveCommentAtom] =
     useRecoilState(positiveComments);
@@ -131,6 +134,7 @@ const NPSDashboard = () => {
     "providersData",
     "clinicData",
     "clientData",
+    "npsAverageGraph",
     "filterRegion",
     "filterClinic",
     "filterClient",
@@ -241,6 +245,7 @@ const NPSDashboard = () => {
     setAllCommentsAPIData(null);
     setProviderApiAtom(null);
     setClientApiAtom(null);
+    setAvgNPS(null);
 
     // API Calls
     if (sendDataStatus === true && usernameLocal) {
@@ -445,6 +450,22 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setClientApiAtom(clients?.data);
+        setAllDataRecievedStatus(true);
+      });
+
+      const avgNps = await axios.post(
+        linksArray[15],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
+      setTimeout(() => {
+        setAvgNPS(avgNps?.data);
         setAllDataRecievedStatus(true);
       });
     }
@@ -652,6 +673,22 @@ const NPSDashboard = () => {
       );
       setTimeout(() => {
         setClientApiAtom(clients?.data);
+        // setAllDataRecievedStatus(true);
+      });
+
+      const avgNps = await axios.post(
+        defaultArray[15],
+        formdata,
+
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      );
+      setTimeout(() => {
+        setAvgNPS(avgNps?.data);
         setAllDataRecievedStatus(true);
       });
     }

@@ -4,6 +4,7 @@ import NPSDetailCard from "./NPSDetailCard";
 import NPSFormula from "./NPSFormula";
 import NPSVsSentiment from "../NPS Overall Dashboard/NPSVsSentiment";
 import Filter from "../Misc/Filter";
+import AvgNPS from "./AvgNPS";
 
 const NPSAnalysisPage = () => {
   return (
@@ -16,6 +17,9 @@ const NPSAnalysisPage = () => {
 
       <section className="my-[8px]  flex flex-col lg:flex-row justify-center gap-[18px]">
         <NPSAllGraph />
+      </section>
+      <section className="my-[8px]  flex flex-col lg:flex-row justify-center gap-[18px]">
+        <AvgNPS />
       </section>
     </div>
   );

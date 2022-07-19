@@ -18,6 +18,7 @@ import endMonthValue from "../../../../recoil/atoms/EndMonth";
 import ClinicValue from "../../../../recoil/atoms/ClinicValue";
 import newRegionGlobalValue from "../../../../recoil/atoms/newRegionGlobalValue";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import clientValue from "../../../../recoil/atoms/clientValue";
 
 const AlertComments2 = () => {
   const [apiData, setApiData] = useState();
@@ -29,6 +30,8 @@ const AlertComments2 = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [totalFilteredComments, setTotalFilteredComments] = useState();
   const [ascSort, setAscSort] = useState(false);
+  const [selectedClientValue, setSelectedClientValue] =
+    useRecoilState(clientValue);
 
   //   truncating description if it contains more then desired no. of characters
   function truncate(string, n) {
@@ -122,7 +125,9 @@ const AlertComments2 = () => {
                   "&region=" +
                   newRegionGlobal +
                   "&clinic=" +
-                  selectedClinicValue
+                  selectedClinicValue +
+                  "&client=" +
+                  selectedClientValue
                 }
               >
                 <FileDownloadOutlinedIcon
