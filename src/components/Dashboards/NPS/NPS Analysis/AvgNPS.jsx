@@ -36,8 +36,6 @@ const AvgNPS = () => {
 
   useEffect(() => {
     setApiData(avgNPS);
-    console.log("avgNPS:");
-    console.log(avgNPS);
   }, [avgNPS]);
 
   const AvgNPSGraphComponent = useRef();
@@ -67,8 +65,8 @@ const AvgNPS = () => {
 
           <div className="flex justify-end items-center gap-[4px] ">
             <div className="flex items-center gap-1">
-              <div className="bg-[#474bc3] h-[8px] w-[8px] rounded-full"></div>
-              <div className="text-[12px] opacity-80">Avg NPS</div>
+              <div className="bg-[#0094E0] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Average NPS</div>
             </div>
           </div>
 
@@ -79,31 +77,12 @@ const AvgNPS = () => {
                 data={apiData?.nps_avg}
                 margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
               >
-                <defs>
-                  <linearGradient
-                    id="avgNpsGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="5%" stopColor="#3d41ba" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#3d41ba" stopOpacity={0.05} />
-                  </linearGradient>
-                </defs>
                 <CartesianGrid
                   vertical={false}
                   horizontal={false}
                   opacity={0.5}
                 />
 
-                <Area
-                  type="monotone"
-                  dataKey="NPS"
-                  fill="url(#avgNpsGradient)"
-                  stroke="#474bc3"
-                  strokeWidth={2}
-                />
                 <XAxis
                   dataKey="month"
                   fontSize={12}
@@ -115,7 +94,7 @@ const AvgNPS = () => {
                 />
                 <YAxis
                   type="number"
-                  domain={["dataMin", "dataMax + 0.005"]}
+                  domain={["dataMin - 0.005", "dataMax + 0.0005"]}
                   axisLine={false}
                   tickLine={false}
                   fontSize={10}
@@ -125,14 +104,13 @@ const AvgNPS = () => {
 
                 <Tooltip cursor={false} content={<CustomTooltip />} />
 
-                {/* <Bar
-                  stackId="a"
+                <Bar
                   barSize={20}
                   name="Average NPS"
                   dataKey="NPS"
                   fill="#0094E0"
                   radius={[5, 5, 0, 0]}
-                /> */}
+                />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -155,7 +133,7 @@ function CustomTooltip({ active, payload, label }) {
           <div key={Math.random()} className="">
             <div className="flex justify-start items-center ">
               <div
-                style={{ background: "#474bc3" }}
+                style={{ background: "#0094E0" }}
                 className={`h-[5px] w-[5px] rounded-full mr-2 `}
               ></div>
               <div className="flex justify-between items-center  w-full">

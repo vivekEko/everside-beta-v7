@@ -21,7 +21,6 @@ import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import npsVsSentimentApiData from "../../../../recoil/atoms/npsVsSentimentApiData";
-
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
 
@@ -34,8 +33,6 @@ const NPSvsSentiment = () => {
 
   useEffect(() => {
     setApiData(npsVsSentiAPIData);
-    console.log("npsVsSenti:");
-    console.log(npsVsSentiAPIData);
   }, [npsVsSentiAPIData]);
 
   const NPSvsSentimentsComponent = useRef();
@@ -164,25 +161,25 @@ const NPSvsSentiment = () => {
                 <Tooltip cursor={false} content={<CustomTooltip />} />
                 <Bar
                   // stackId="a"
-                  barSize={20}
+                  barSize={30}
                   name="promoter"
                   dataKey="promoter"
                   fill="#00AC69"
                   radius={[5, 5, 0, 0]}
                   minPointSize={1}
-                />{" "}
+                />
                 <Bar
                   // stackId="a"
-                  barSize={20}
+                  barSize={30}
                   name="passive"
                   dataKey="passive"
                   fill="#4D5552"
                   radius={[5, 5, 0, 0]}
                   minPointSize={1}
-                />{" "}
+                />
                 <Bar
                   // stackId="a"
-                  barSize={20}
+                  barSize={30}
                   name="detractor"
                   dataKey="detractor"
                   fill="#DB2B39"
