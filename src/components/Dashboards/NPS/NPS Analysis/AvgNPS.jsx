@@ -21,7 +21,6 @@ import axios from "axios";
 import PuffLoader from "react-spinners/PuffLoader";
 import { BASE_API_LINK } from "../../../../utils/BaseAPILink";
 import sentimentOverTimeApiData from "../../../../recoil/atoms/sentimentOverTimeApiData";
-
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
 import AvgNPSAtom from "../../../../recoil/atoms/AvgNPSAtom";

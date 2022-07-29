@@ -178,6 +178,30 @@ const Sidebar = () => {
               />
             </div>
 
+            {/* <EngagementIcon /> */}
+
+            <div className="mb-[30px] ">
+              <SidebarLink
+                iconName="Provider_Score"
+                pageName={pageName}
+                linkName="Provider Score"
+                onClick={() => {
+                  setPageName("Provider_Score");
+                  setComponentNameValue("Provider_Score");
+                  setHamburgerStatus(!hamburgerStatus);
+                  setActivePageValue("Provider_Score");
+                }}
+                icon={
+                  <BoxIconLarge
+                    bgColor={bgColorValue}
+                    strokeColor={strokeColor}
+                    iconName="Provider_Score"
+                    pageName={pageName}
+                  />
+                }
+              />
+            </div>
+
             {/* <div className="mb-[30px] invisible">
               <Link to="/SDOH">
                 <SidebarLink

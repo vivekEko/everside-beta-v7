@@ -5,6 +5,7 @@ import NPSFormula from "./NPSFormula";
 import NPSVsSentiment from "../NPS Overall Dashboard/NPSVsSentiment";
 import Filter from "../Misc/Filter";
 import AvgNPS from "./AvgNPS";
+import AvgNPS2 from "./AvgNPS2";
 
 const NPSAnalysisPage = () => {
   return (
@@ -19,7 +20,7 @@ const NPSAnalysisPage = () => {
         <NPSAllGraph />
       </section>
       <section className="my-[8px]  flex flex-col lg:flex-row justify-center gap-[18px]">
-        <AvgNPS />
+        <AvgNPS2 />
       </section>
     </div>
   );

@@ -37,8 +37,6 @@ const Clients3 = () => {
   useEffect(() => {
     setApiData(clienApiDatavalue);
     setApiData2(clienApiDatavalue);
-    console.log("client datttttttttttttttttttttttttta");
-    console.log(clienApiDatavalue);
   }, [clienApiDatavalue]);
 
   function arrayRemove(arr, value) {
@@ -127,6 +125,7 @@ const Clients3 = () => {
                         } transition-all inline w-[6px] ml-1 `}
                       />
                     </div>
+
                     {/* Parent filter */}
                     <div
                       className={` ${
@@ -167,7 +166,7 @@ const Clients3 = () => {
                               className=" text-left m-2 cursor-pointer flex w-full "
                             >
                               <input
-                                className=" cursor-pointer"
+                                className="cursor-pointer"
                                 type="checkbox"
                                 name={data}
                                 value={data}
@@ -178,7 +177,6 @@ const Clients3 = () => {
                                 }
                                 onChange={() => {
                                   if (selectedParentClient?.includes(data)) {
-                                    console.log(data + " already exits");
                                     setSelectedParentClient(
                                       (selectedParentClient) =>
                                         arrayRemove(selectedParentClient, data)
@@ -199,7 +197,6 @@ const Clients3 = () => {
                                 className="text-xs pl-2 cursor-pointer text-gray-600"
                                 onClick={() => {
                                   if (selectedParentClient?.includes(data)) {
-                                    console.log(data + " already exits");
                                     setSelectedParentClient(
                                       (selectedParentClient) =>
                                         arrayRemove(selectedParentClient, data)
