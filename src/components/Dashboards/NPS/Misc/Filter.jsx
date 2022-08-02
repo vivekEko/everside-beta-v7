@@ -116,7 +116,10 @@ const Filter = () => {
   return (
     <div
       className={` ${
-        activePageValue === "Engagement_Model" ? "hidden" : "block"
+        activePageValue === "Engagement_Model" ||
+        activePageValue === "Provider_Score"
+          ? "hidden"
+          : "block"
       } flex justify-between items-center  relative  `}
     >
       <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2  w-full ">

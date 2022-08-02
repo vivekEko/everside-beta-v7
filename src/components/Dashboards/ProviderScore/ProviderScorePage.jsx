@@ -5,10 +5,12 @@ import ProviderNPS from "./ProviderNPS";
 import ProviderAllGraph from "./ProviderAllGraph";
 import ProviderComments from "./ProviderComments";
 import ProviderFilter from "./ProviderFilter";
+import ProviderFilter2 from "./ProviderFilter2";
 
 const ProviderScorePage = () => {
   return (
-    <div className="mt-1 min-h-[90vh]">
+    <div className=" min-h-[90vh]">
+      <ProviderFilter2 />
       <div className="flex items-center gap-2 flex-col lg:flex-row  ">
         <div className="flex flex-col md:flex-row items-center gap-2 flex-1  lg:flex-[0.8] w-full ">
           <ProviderInfo />
