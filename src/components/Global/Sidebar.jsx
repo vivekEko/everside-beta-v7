@@ -180,7 +180,7 @@ const Sidebar = () => {
 
             {/* <EngagementIcon /> */}
 
-            <div className="mb-[30px] ">
+            <div className="mb-[30px] hidden">
               <SidebarLink
                 iconName="Provider_Score"
                 pageName={pageName}

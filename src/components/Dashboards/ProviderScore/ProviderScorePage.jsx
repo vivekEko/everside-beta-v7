@@ -12,13 +12,12 @@ const ProviderScorePage = () => {
     <div className=" min-h-[90vh]">
       <ProviderFilter2 />
       <div className="flex items-center gap-2 flex-col lg:flex-row  ">
-        <div className="flex flex-col md:flex-row items-center gap-2 flex-1  lg:flex-[0.8] w-full ">
+        <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
           <ProviderInfo />
           <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
             <ProviderNPS />
           </div>
         </div>
-
         <ProviderTotalCard />
       </div>
       <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">

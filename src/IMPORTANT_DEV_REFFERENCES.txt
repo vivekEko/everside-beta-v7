@@ -14,3 +14,12 @@ https://codesandbox.io/s/b8k2j
 
 React Virtualized:
 https://youtu.be/UrgfPjX97Yg
+
+
+
+Colors Used:
+
+green: #00ac69
+gray: #939799
+red: #db2b39
+orange: #ee6123

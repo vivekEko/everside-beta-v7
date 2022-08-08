@@ -11,7 +11,10 @@ import npsAPIdata from "../../../../recoil/atoms/npsAPIdata";
 import LoaderStatus from "../../../../recoil/atoms/Loader";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
-import { exportComponentAsPNG } from "react-component-export-image";
+import {
+  exportComponentAsPNG,
+  exxportComponentAsPDF,
+} from "react-component-export-image";
 
 const NPSCard = () => {
   const [npsApiData, setNpsApiData] = useRecoilState(npsAPIdata);
