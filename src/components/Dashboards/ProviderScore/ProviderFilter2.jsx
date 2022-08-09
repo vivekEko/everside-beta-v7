@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CalendarIcon from "../../../assets/img/NPS Dashboard/calendar.svg";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { useRecoilState } from "recoil";
@@ -13,6 +13,18 @@ import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
 import ProviderCalendar2 from "./ProviderCalendar2";
 import ProviderRegion from "./ProviderRegion";
 import ProviderRegion2 from "./ProviderRegion2";
+import ProviderClinic2 from "./ProviderClinic2";
+import ProviderClient2 from "./ProviderClient2";
+import clientAPIdataProvider from "../../../recoil/atoms/clientAPIdataProvider";
+import clinicProviderAPI from "../../../recoil/atoms/clinicProviderAPI";
+import regionGlobalProvider from "../../../recoil/atoms/regionGlobalProvider";
+import flushRegionProvider from "../../../recoil/atoms/flushRegionProvider";
+import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
+import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
+import regionDataLengthAtom from "../../../recoil/atoms/regionDataLengthAtom";
+import clinicDataLengthAtom from "../../../recoil/atoms/clinicDataLengthAtom";
+import clientDataLengthAtom from "../../../recoil/atoms/clientDataLengthAtom";
+import FormatColorResetOutlinedIcon from "@mui/icons-material/FormatColorResetOutlined";
 
 const ProviderFilter2 = () => {
   // Global variables
@@ -38,6 +50,28 @@ const ProviderFilter2 = () => {
     endMonthValueProvider
   );
 
+  const [regionGlobal, setRegionGlobal] = useRecoilState(regionGlobalProvider);
+  const [clinicAPIData, setClinicAPIData] = useRecoilState(clinicProviderAPI);
+  const [clientAPIdata, setClientDataProvider] = useRecoilState(
+    clientAPIdataProvider
+  );
+  const [flushRegionValue, setFlushRegionvalue] =
+    useRecoilState(flushRegionProvider);
+
+  const [flushClinicStatus, setFlushClinicStatus] =
+    useRecoilState(flushClinicProvider);
+  const [flushClientStatus, setFlushClientStatus] =
+    useRecoilState(flushClientProvider);
+  const [regionDataLength, setRegionDataLength] =
+    useRecoilState(regionDataLengthAtom);
+  const [clinicDataLength, setClinicDataLength] =
+    useRecoilState(clinicDataLengthAtom);
+  const [clientDataLength, setClientDataLength] =
+    useRecoilState(clientDataLengthAtom);
+
+  // Local variable
+  const [clearFilterVar, setClearFilterVar] = useState(false);
+
   const monthList = [
     "Jan",
     "Feb",
@@ -56,6 +90,18 @@ const ProviderFilter2 = () => {
   useEffect(() => {
     setAllDataRecievedStatus(true);
   }, []);
+
+  // clear filter logic
+  useEffect(() => {
+    setFlushRegionvalue(true);
+    setFlushClinicStatus(true);
+    setFlushClientStatus(true);
+    setTimeout(() => {
+      setFlushRegionvalue(false);
+      setFlushClinicStatus(false);
+      setFlushClientStatus(false);
+    }, 500);
+  }, [clearFilterVar]);
 
   return (
     <div
@@ -111,6 +157,45 @@ const ProviderFilter2 = () => {
 
         {/* Region */}
         <ProviderRegion2 />
+
+        {/* Clinics / Health  */}
+        <ProviderClinic2 />
+
+        {/* Clients */}
+        <ProviderClient2 />
+
+        {/* Clear filter */}
+        <div
+          className={`
+          ${
+            allDataRecievedStatus === true
+              ? "  cursor-pointer active:scale-95"
+              : "opacity-50 cursor-not-allowed "
+          }
+          
+          ${
+            regionDataLength > 0 || clinicDataLength > 0 || clientDataLength > 0
+              ? "  cursor-pointer active:scale-95"
+              : "opacity-50 cursor-not-allowed "
+          }  bg-green-50 p-2 rounded-lg text-[10px] sm:text-[12px] text-[#000C08] border text-opacity-70  transition-all flex justify-center items-center gap-2`}
+          onClick={() => {
+            if (allDataRecievedStatus === true) {
+              if (
+                regionDataLength > 0 ||
+                clinicDataLength > 0 ||
+                clientDataLength > 0
+              ) {
+                setClearFilterVar(!clearFilterVar);
+              }
+            }
+          }}
+        >
+          <FormatColorResetOutlinedIcon
+            fontSize="small"
+            className="text-[#00ac69]"
+          />
+          Clear Filters
+        </div>
       </div>
     </div>
   );

@@ -1,141 +1,66 @@
 import React, { useEffect, useState } from "react";
 import { useDetectClickOutside } from "react-detect-click-outside";
 import { useRecoilState } from "recoil";
-import allDataRecieved from "../../../recoil/atoms/allDataRecieved";
+import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvider";
 import DateFilterStatus from "../../../recoil/atoms/DateFilterStatusAtom";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
 import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
-import ApiDataJson from "../../../mock_API/NPS/NPS Main Dashboard/ClientFilter.json";
-import activeFilterButton from "../../../recoil/atoms/activeFilterButton";
-import sendData from "../../../recoil/atoms/sendDatesValueAtom";
-import goButtonStatus from "../../../recoil/atoms/goButtonStatus";
-import clientStatusLocalAtom from "../../../recoil/atoms/clientStatusLocalAtom";
-import flushClinic from "../../../recoil/atoms/flushClinic";
-import clientValue from "../../../recoil/atoms/clientValue";
-import axios from "axios";
-import ClinicValue from "../../../recoil/atoms/ClinicValue";
-import endMonthValue from "../../../recoil/atoms/EndMonth";
-import endDateValue from "../../../recoil/atoms/EndDateAtom";
-import startMonthValue from "../../../recoil/atoms/StartMonthAtom";
-import startDateValue from "../../../recoil/atoms/StartDateAtom";
-import { BASE_API_LINK } from "../../../utils/BaseAPILink";
-import newRegionGlobalValue from "../../../recoil/atoms/newRegionGlobalValue";
-import runClientAPIatom from "../../../recoil/atoms/runClientAPIatom";
-import flushClientFilter from "../../../recoil/atoms/flushClientFilter";
-const ProviderClient = () => {
-  const [allDataRecievedStatus, setAllDataRecievedStatus] =
-    useRecoilState(allDataRecieved);
+import clientAPIdataProvider from "../../../recoil/atoms/clientAPIdataProvider";
+import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
+import clientDataLengthAtom from "../../../recoil/atoms/clientDataLengthAtom";
+import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
+
+const ProviderClient2 = () => {
+  // Global variabbles
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
+  const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
+    allDataRecievedProvider
+  );
+
+  const [clientAPIdata, setClientDataProvider] = useRecoilState(
+    clientAPIdataProvider
+  );
+  const [flushClientStatus, setFlushClientStatus] =
+    useRecoilState(flushClientProvider);
+  const [clientDataLength, setClientDataLength] =
+    useRecoilState(clientDataLengthAtom);
+  // Local variables
+  const [clientLocal, setClientLocal] = useState([]);
   const [clientStatusLocal, setClientStatusoLocal] = useState(false);
   const [inputData, setInputData] = useState("");
-  const [filterButtonStatus, setFilterButtonStatus] =
-    useRecoilState(activeFilterButton);
-  const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
-  const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
-  const [clientLocal, setClientLocal] = useState([]);
-  const [flushClinicStatus, setFlushClinicStatus] = useRecoilState(flushClinic);
-  const [flushClientStatus, setFlushClientStatus] =
-    useRecoilState(flushClientFilter);
-  const [clientLocalStatusAtom, setClientLocalStatusAtom] = useRecoilState(
-    clientStatusLocalAtom
-  );
-  const [selectedClientValue, setSelectedClientValue] =
-    useRecoilState(clientValue);
-  const [usernameLocal, setUsernameLocal] = useState();
-  const [runClientAPI, setRunClientAPI] = useRecoilState(runClientAPIatom);
-  const [selectedClinicValue, setSelectedClinicValue] =
-    useRecoilState(ClinicValue);
+  const [clearFilterVar, setClearFilterVar] = useState(false);
 
-  const [baseAPI, setBaseAPI] = useState(BASE_API_LINK);
-  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
-  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
-  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
-  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
-
-  const [newRegionGlobal, setNewRegionGlobal] =
-    useRecoilState(newRegionGlobalValue);
-
-  const [ApiData, setApiData] = useState();
-
-  useEffect(() => {
-    setUsernameLocal(sessionStorage?.getItem("username"));
-  }, [sessionStorage?.getItem("username")]);
-
-  useEffect(() => {
-    if (flushClientStatus === true) {
-      console.log("deleteimg clientttttttttttttttttttttttt");
-      setClientLocal([]);
-      setSelectedClientValue([]);
-    }
-  }, [flushClientStatus]);
-
+  // Close on outside click functionality
   const closeToggle = () => {
     setClientStatusoLocal(false);
   };
-
   const ref = useDetectClickOutside({ onTriggered: closeToggle });
 
+  // Search input field
   const handleInput = (e) => {
     setInputData(e.target.value);
   };
 
+  //   remove items from array logic
   function arrayRemove(arr, value) {
     return arr.filter(function (geek) {
       return geek != value;
     });
   }
 
-  useEffect(async () => {
-    const text = clientLocal.join(",");
-
-    setSelectedClientValue(text);
-
-    if (runClientAPI === true && usernameLocal) {
-      const formdata = new FormData();
-      formdata.append("username", usernameLocal);
-
-      const clinicData = await axios.post(
-        baseAPI +
-          "filterClient?start_month=" +
-          finalStartMonth +
-          "&start_year=" +
-          finalStartDate +
-          "&end_month=" +
-          finalEndMonth +
-          "&end_year=" +
-          finalEndDate +
-          "&region=" +
-          newRegionGlobal +
-          "&clinic=" +
-          selectedClinicValue,
-        formdata,
-
-        {
-          headers: {
-            authorization: sessionStorage.getItem("token"),
-            Accept: "application/json",
-          },
-        }
-      );
-
-      setApiData(clinicData?.data);
-    }
-  }, [usernameLocal, runClientAPI]);
-
+  // Flush client list values
   useEffect(() => {
-    const text = clientLocal.join(",");
-
-    setSelectedClientValue(text);
-  }, [clientLocal, selectedClientValue]);
-
-  useEffect(() => {
-    if (clientLocal.length) {
-      setClientLocalStatusAtom(true);
-    } else {
-      setClientLocalStatusAtom(false);
+    if (flushClientStatus === true) {
+      setClientLocal([]);
+      // setSelectedClientValue([]);
     }
+  }, [flushClientStatus]);
+
+  // send length to clear filter
+  useEffect(() => {
+    setClientDataLength(clientLocal.length);
   }, [clientLocal]);
 
   return (
@@ -154,7 +79,7 @@ const ProviderClient = () => {
           if (allDataRecievedStatus) {
             setClientStatusoLocal(!clientStatusLocal);
             // setCallRegion(false);
-            setFlushClientStatus(false);
+            // setFlushClientStatus(false);
           }
         }}
       >
@@ -208,7 +133,7 @@ const ProviderClient = () => {
               {/* List */}
               <div className="pl-2 pt-2 relative  pb-14">
                 <div>
-                  {ApiData?.client
+                  {clientAPIdata
                     ?.filter((filtered_value) => {
                       if (inputData === "") {
                         return filtered_value;
@@ -279,7 +204,7 @@ const ProviderClient = () => {
                   className="underline text-gray-500 text-[11px] cursor-pointer active:text-[#00ac69]"
                   onClick={() => {
                     {
-                      setClientLocal(ApiData?.client);
+                      setClientLocal(clientAPIdata);
                     }
                   }}
                 >
@@ -297,18 +222,18 @@ const ProviderClient = () => {
               </div>
               <div
                 className="p-1 rounded-lg bg-[#00ac69] text-white w-[100px] text-center  active:scale-95 transition-all cursor-pointer"
-                onClick={() => {
-                  setRunClientAPI(true);
-                  setClientStatusoLocal(!clientStatusLocal);
-                  setFilterButtonStatus(true);
-                  setSendDataStatus(true);
-                  setGoStatus(!goStatus);
-                  setAllDataRecievedStatus(false);
+                // onClick={() => {
+                //   setRunClientAPI(true);
+                //   setClientStatusoLocal(!clientStatusLocal);
+                //   setFilterButtonStatus(true);
+                //   setSendDataStatus(true);
+                //   setGoStatus(!goStatus);
+                //   setAllDataRecievedStatus(false);
 
-                  setTimeout(() => {
-                    setRunClientAPI(false);
-                  }, 500);
-                }}
+                //   setTimeout(() => {
+                //     setRunClientAPI(false);
+                //   }, 500);
+                // }}
               >
                 Submit
               </div>
@@ -323,4 +248,4 @@ const ProviderClient = () => {
   );
 };
 
-export default ProviderClient;
+export default ProviderClient2;

@@ -1,93 +1,68 @@
 import React, { useEffect, useState } from "react";
-import MedicationOutlinedIcon from "@mui/icons-material/MedicationOutlined";
-import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
-import clinicsApiData from "../../../recoil/atoms/clinicsApiData";
-import ClinicValue from "../../../recoil/atoms/ClinicValue";
-import { useRecoilState } from "recoil";
-import activeFilterButton from "../../../recoil/atoms/activeFilterButton";
-import regionStatus from "../../../recoil/atoms/regionStatus";
-import ClinicFilterAPiData from "../../../recoil/atoms/ClinicFilterAPiData";
-import goButtonStatus from "../../../recoil/atoms/goButtonStatus";
-import sendData from "../../../recoil/atoms/sendDatesValueAtom";
-import flushClinic from "../../../recoil/atoms/flushClinic";
-import allDataRecieved from "../../../recoil/atoms/allDataRecieved";
-import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
 import { useDetectClickOutside } from "react-detect-click-outside";
-import DateFilterStatus from "../../../recoil/atoms/DateFilterStatusAtom";
-import clinicLocalStatus from "../../../recoil/atoms/clinicLocalStatus";
-import runClientAPIatom from "../../../recoil/atoms/runClientAPIatom";
+import MedicationOutlinedIcon from "@mui/icons-material/MedicationOutlined";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
+import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
 
-const ProviderClinic = () => {
-  const [clinicsAPIdataValue, setClinicAPIDataValue] =
-    useRecoilState(ClinicFilterAPiData);
-  const [selectedClinicValue, setSelectedClinicValue] =
-    useRecoilState(ClinicValue);
+import { useRecoilState } from "recoil";
+import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
+import ProviderDateFilterStatus from "../../../recoil/atoms/ProviderDateFilterStatusAtom";
+import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvider";
+import callClinicProvider from "../../../recoil/atoms/callClinicProvider";
+import clinicProviderAPI from "../../../recoil/atoms/clinicProviderAPI";
+import clinicDataLengthAtom from "../../../recoil/atoms/clinicDataLengthAtom";
+
+const ProviderClinic2 = () => {
+  // Global variables
+  const [datePickerStatus, setDatePickerStatus] = useRecoilState(
+    ProviderDateFilterStatus
+  );
+  const [flushClinicStatus, setFlushClinicStatus] =
+    useRecoilState(flushClinicProvider);
+  const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
+    allDataRecievedProvider
+  );
+  const [callClinicAtom, setCallClinicAtom] =
+    useRecoilState(callClinicProvider);
+  const [clinicAPIData, setClinicAPIData] = useRecoilState(clinicProviderAPI);
+  const [clinicDataLength, setClinicDataLength] =
+    useRecoilState(clinicDataLengthAtom);
+
+  // Local Variables
   const [clinicStatusLocal, setClinicStatusoLocal] = useState(false);
-  const [inputData, setInputData] = useState("");
-
-  const [filterButtonStatus, setFilterButtonStatus] =
-    useRecoilState(activeFilterButton);
-
   const [clinicLocal, setClinicLocal] = useState([]);
+  const [inputData, setInputData] = useState("");
+  const [regionShowStatus, setRegionShowStatus] = useState(false);
 
-  const [callRegion, setCallRegion] = useRecoilState(regionStatus);
-  const [goStatus, setGoStatus] = useRecoilState(goButtonStatus);
-  const [sendDataStatus, setSendDataStatus] = useRecoilState(sendData);
-  const [flushClinicStatus, setFlushClinicStatus] = useRecoilState(flushClinic);
-  const [allDataRecievedStatus, setAllDataRecievedStatus] =
-    useRecoilState(allDataRecieved);
-
-  const [datePickerStatus, setDatePickerStatus] =
-    useRecoilState(DateFilterStatus);
-
-  const [runClientAPI, setRunClientAPI] = useRecoilState(runClientAPIatom);
-
-  useEffect(() => {
-    if (flushClinicStatus === true) {
-      setClinicLocal([]);
-    }
-  }, [flushClinicStatus]);
-
-  const handleInput = (e) => {
-    setInputData(e.target.value);
-  };
-
-  useEffect(() => {
-    // console.log("clinicLocal");
-    // console.log(clinicLocal);
-
-    const text = clinicLocal.join("-");
-
-    setSelectedClinicValue(text);
-
-    // console.log("selectedClinicValue ....................................");
-    // console.log(selectedClinicValue);
-  }, [clinicLocal, selectedClinicValue]);
-
-  function arrayRemove(arr, value) {
-    return arr.filter(function (geek) {
-      return geek != value;
-    });
-  }
-
+  // Click outside to close filter functionality
   const closeToggle = () => {
     setClinicStatusoLocal(false);
   };
 
   const ref = useDetectClickOutside({ onTriggered: closeToggle });
 
-  const [clinicLocalStatusAtom, setClinicLocalStatusAtom] =
-    useRecoilState(clinicLocalStatus);
-
+  // Flush Clinic functionality
   useEffect(() => {
-    if (clinicLocal.length) {
-      // console.log("clinicLocal length:");
-
-      // console.log(clinicLocal.length);
-      setClinicLocalStatusAtom(true);
-    } else {
-      setClinicLocalStatusAtom(false);
+    if (flushClinicStatus === true) {
+      setClinicLocal([]);
     }
+  }, [flushClinicStatus]);
+
+  //   Search bar input field
+  const handleInput = (e) => {
+    setInputData(e.target.value);
+  };
+
+  // remove from array logic
+  function arrayRemove(arr, value) {
+    return arr.filter(function (geek) {
+      return geek != value;
+    });
+  }
+
+  // send length to clear filter
+  useEffect(() => {
+    setClinicDataLength(clinicLocal.length);
   }, [clinicLocal]);
 
   return (
@@ -105,7 +80,7 @@ const ProviderClinic = () => {
         onClick={() => {
           if (allDataRecievedStatus) {
             setClinicStatusoLocal(!clinicStatusLocal);
-            setCallRegion(false);
+            // setCallRegion(false);
             setFlushClinicStatus(false);
           }
         }}
@@ -131,7 +106,8 @@ const ProviderClinic = () => {
         </div>
       </div>
 
-      {/* list items */}
+      {/* Clinic List  */}
+
       <div
         className={` ${
           clinicStatusLocal ? "block ease-in" : "hidden ease-out"
@@ -160,7 +136,7 @@ const ProviderClinic = () => {
               {/* List */}
               <div className="pl-2 pt-2 relative pb-14">
                 <div>
-                  {clinicsAPIdataValue?.clinic
+                  {clinicAPIData
                     ?.filter((filtered_value) => {
                       if (inputData === "") {
                         return filtered_value;
@@ -233,7 +209,7 @@ const ProviderClinic = () => {
                   className="underline text-gray-500 text-[11px] cursor-pointer active:text-[#00ac69]"
                   onClick={() => {
                     {
-                      setClinicLocal(clinicsAPIdataValue?.clinic);
+                      setClinicLocal(clinicAPIData);
                     }
                   }}
                 >
@@ -253,14 +229,14 @@ const ProviderClinic = () => {
                 className="p-1 rounded-lg bg-[#00ac69] text-white w-[100px] text-center  active:scale-95 transition-all cursor-pointer"
                 onClick={() => {
                   setClinicStatusoLocal(!clinicStatusLocal);
-                  setFilterButtonStatus(true);
-                  setSendDataStatus(true);
-                  setRunClientAPI(true);
+                  //   setFilterButtonStatus(true);
+                  //   setSendDataStatus(true);
+                  //   setRunClientAPI(true);
 
-                  setTimeout(() => {
-                    setRunClientAPI(false);
-                  }, 500);
-                  setGoStatus(!goStatus);
+                  //   setTimeout(() => {
+                  //     setRunClientAPI(false);
+                  //   }, 500);
+                  //   setGoStatus(!goStatus);
                   setAllDataRecievedStatus(false);
                 }}
               >
@@ -274,4 +250,4 @@ const ProviderClinic = () => {
   );
 };
 
-export default ProviderClinic;
+export default ProviderClinic2;

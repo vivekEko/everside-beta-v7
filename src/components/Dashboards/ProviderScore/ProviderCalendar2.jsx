@@ -82,6 +82,13 @@ const ProviderCalendar2 = () => {
   const [endMonthVal, setEndMonthVal] = useState("Jun");
   const [endMonthNumVal, setEndMonthNumVal] = useState(6);
 
+  useEffect(() => {
+    console.log("finalStartDate: ", finalStartDate);
+    console.log("finalEndDate: ", finalEndDate);
+    console.log("finalStartMonth: ", finalStartMonth);
+    console.log("finalEndMonth: ", finalEndMonth);
+  }, [finalStartDate, finalEndDate, finalStartMonth, finalEndMonth]);
+
   //   MUI Slider marks
   const marks = [
     {
