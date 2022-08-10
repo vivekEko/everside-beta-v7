@@ -21,27 +21,30 @@ import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
 
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 
 const ProviderAllGraph = () => {
   const [filterStatus, setFilterStatus] = useState(false);
-  const [graphName, setGraphName] = useState("NPS Score");
+  const [graphName, setGraphName] = useState("Member Engagement");
   const [spinAnimation, setSpinAnimation] = useState(false);
+
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
 
   // const [sentimentArray, setSentimentArray] = useState(["All"]);
 
-  const [promoters, setPromoters] = useState(false);
-  const [passives, setPassives] = useState(false);
-  const [detractors, setDetractors] = useState(false);
-  const [npsScore, setNpsScore] = useState(true);
+  const [memberEngagement, setMemberEngagement] = useState(true);
+  const [visitReason, setVisitReason] = useState(false);
 
   const npsGraphNames = [
     {
       id: 1,
-      name: "NPS Score",
+      name: "Member Engagement",
     },
     {
       id: 2,
-      name: "Promoters",
+      name: "Visit Reason",
     },
     // {
     //   id: 3,
@@ -59,10 +62,10 @@ const ProviderAllGraph = () => {
     useRecoilState(npsOverTimeApiData);
 
   useEffect(() => {
-    setApiData(npsOverTimeAPIData);
+    setApiData(providerComponentApi);
     console.log("atom data nps all provider component");
-    console.log(npsOverTimeAPIData);
-  }, [npsOverTimeAPIData]);
+    console.log(providerComponentApi);
+  }, [providerComponentApi]);
 
   const closeToggle = () => {
     setFilterStatus(false);
@@ -72,10 +75,10 @@ const ProviderAllGraph = () => {
 
   function handleReset() {
     setFilterStatus(false);
-    setPromoters(false);
+    setVisitReason(false);
     // setPassives(false);
     // setDetractors(false);
-    setNpsScore(true);
+    setMemberEngagement(true);
     setSpinAnimation(true);
     setTimeout(() => setSpinAnimation(false), 1000);
   }
@@ -101,15 +104,6 @@ const ProviderAllGraph = () => {
             </h1>
 
             <div className="flex gap-2 items-center">
-              <button
-                onClick={() => exportComponentAsPNG(ProviderAllGraphComponent)}
-              >
-                <FileDownloadOutlinedIcon
-                  fontSize="small"
-                  className="text-gray-400"
-                />
-              </button>
-
               <div
                 className="relative flex flex-row-reverse gap-5 items-center"
                 ref={ref}
@@ -140,7 +134,7 @@ const ProviderAllGraph = () => {
                 <div
                   className={`bg-gray-100  z-[50] ${
                     filterStatus ? "h-auto block" : "h-0 hidden"
-                  }   w-[120px] rounded-lg absolute top-[120%] left-[0%]`}
+                  }   w-[150px] rounded-lg absolute top-[120%] left-[0%]`}
                 >
                   {npsGraphNames?.map((data) => (
                     <div
@@ -148,18 +142,18 @@ const ProviderAllGraph = () => {
                       className={` flex justify-end flex-row-reverse items-center gap-5 p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
                       onClick={() => {
                         // new logic
-                        if (promoters || npsScore) {
+                        if (visitReason || memberEngagement) {
                           if (data.id === 1) {
-                            if (promoters && npsScore === true) {
-                              setNpsScore(false);
+                            if (visitReason && memberEngagement === true) {
+                              setMemberEngagement(false);
                             } else {
-                              setNpsScore(true);
+                              setMemberEngagement(true);
                             }
                           } else if (data.id === 2) {
-                            if (npsScore && promoters === true) {
-                              setPromoters(false);
+                            if (memberEngagement && visitReason === true) {
+                              setVisitReason(false);
                             } else {
-                              setPromoters(true);
+                              setVisitReason(true);
                             }
                           }
                         }
@@ -172,10 +166,12 @@ const ProviderAllGraph = () => {
                       <div
                         className={`w-[11px] h-[11px] border border-black rounded-sm
                       ${
-                        npsScore && data?.id === 1 ? "bg-[#0094E0]" : "bg-white"
+                        memberEngagement && data?.id === 1
+                          ? "bg-[#0094E0]"
+                          : "bg-white"
                       }
                        ${
-                         promoters && data?.id === 2
+                         visitReason && data?.id === 2
                            ? "bg-[#AFA2FF]"
                            : "bg-white"
                        }
@@ -207,7 +203,7 @@ const ProviderAllGraph = () => {
             <ResponsiveContainer width="100%" height={300}>
               <BarChart
                 key={graphName}
-                data={apiData?.nps_over_time}
+                data={apiData?.provider_statistics}
                 margin={{ top: 0, right: 20, left: -20, bottom: 0 }}
               >
                 <defs>
@@ -225,28 +221,6 @@ const ProviderAllGraph = () => {
                   >
                     <stop offset="5%" stopColor="#AFA2FF" stopOpacity={0.8} />
                     <stop offset="95%" stopColor="#AFA2FF" stopOpacity={0.3} />
-                  </linearGradient>
-
-                  <linearGradient
-                    id="passiveGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="5%" stopColor="#939799" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#939799" stopOpacity={0.3} />
-                  </linearGradient>
-
-                  <linearGradient
-                    id="detractorGradient"
-                    x1="0"
-                    y1="0"
-                    x2="0"
-                    y2="1"
-                  >
-                    <stop offset="5%" stopColor="#DB2B39" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#DB2B39" stopOpacity={0.3} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -267,49 +241,29 @@ const ProviderAllGraph = () => {
                   axisLine={false}
                   tickLine={false}
                   fontSize={12}
-                  domain={["dataMin - 0.005", "dataMax + 0.0005"]}
+                  domain={["dataMin - 0.1", "dataMax + 0.0005"]}
                   tickFormatter={(number) => `${number.toFixed(0)}`}
                   margin={{ right: 20 }}
                 />
                 <Tooltip cursor={false} content={<CustomTooltip />} />
-                {npsScore && (
+                {memberEngagement && (
                   <Bar
                     barSize={20}
                     radius={[5, 5, 0, 0]}
-                    name="NPS"
-                    dataKey="NPS"
+                    name="Member Engagement"
+                    dataKey="count"
                     // fill="url(#npsGradient)"
                     fill="#0094E0"
                   />
                 )}
 
-                {promoters && (
+                {visitReason && (
                   <Bar
                     barSize={20}
                     radius={[5, 5, 0, 0]}
-                    name="promoter"
-                    dataKey="promoter"
+                    name="Visit Reason"
+                    dataKey="reason"
                     fill="#AFA2FF"
-                  />
-                )}
-
-                {passives && (
-                  <Bar
-                    barSize={20}
-                    radius={[5, 5, 0, 0]}
-                    name="passive"
-                    dataKey="passive"
-                    fill="url(#passiveGradient)"
-                  />
-                )}
-
-                {detractors && (
-                  <Bar
-                    barSize={20}
-                    radius={[5, 5, 0, 0]}
-                    name="detractor"
-                    dataKey="detractor"
-                    fill="url(#detractorGradient)"
                   />
                 )}
               </BarChart>

@@ -26,6 +26,7 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 
 const ProviderNPS = () => {
   const [apiData, setApiData] = useState();
@@ -33,6 +34,10 @@ const ProviderNPS = () => {
   const [promoters, setPromoters] = useState(0);
   const [passives, setPassives] = useState(0);
   const [detractors, setDetractors] = useState(0);
+
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
 
   useEffect(() => {
     setApiData(npsApiData);
@@ -42,11 +47,16 @@ const ProviderNPS = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      setPromoters(apiData?.nps?.promoters);
-      setPassives(apiData?.nps?.passive);
-      setDetractors(apiData?.nps?.detractors);
+      setPromoters(providerComponentApi?.provider_nps_pie?.promoter);
+      setPassives(providerComponentApi?.provider_nps_pie?.passive);
+      setDetractors(providerComponentApi?.provider_nps_pie?.detractor);
     }, 100);
-  }, [apiData?.nps?.promoters]);
+  }, [providerComponentApi?.provider_nps_pie?.promoter]);
+
+  useEffect(() => {
+    console.log("promoters :");
+    console.log(promoters);
+  }, [promoters]);
 
   const [showInfoNps, setShowInfoNps] = useState(false);
 
@@ -62,13 +72,13 @@ const ProviderNPS = () => {
       ref={NPSComponentDetailedCardComponent}
       className="p-2 px-4  w-full   rounded-lg bg-white flex justify-center md:justify-center items-start relative "
     >
-      {!apiData && (
+      {!providerComponentApi && (
         <div className="min-h-[240px] bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
         </div>
       )}
 
-      {apiData && (
+      {providerComponentApi && (
         <div className=" w-full  ">
           <div className=" font-bold  flex justify-between gap-2 items-center mb-7">
             <div className="font-bold opacity-80 text-[18px] ">
@@ -76,7 +86,7 @@ const ProviderNPS = () => {
             </div>
 
             <div className="flex items-center gap-2">
-              <button
+              {/* <button
                 onClick={() =>
                   exportComponentAsPNG(NPSComponentDetailedCardComponent)
                 }
@@ -85,10 +95,10 @@ const ProviderNPS = () => {
                   fontSize="small"
                   className="text-gray-400"
                 />
-              </button>
+              </button> */}
 
               <div
-                className="relative z-[200] "
+                className="relative z-[10] "
                 onMouseEnter={() => setShowInfoNps(!showInfoNps)}
                 onMouseLeave={() => setShowInfoNps(!showInfoNps)}
               >
@@ -154,28 +164,36 @@ const ProviderNPS = () => {
                       <CountUp
                         start={0}
                         duration={1}
-                        end={apiData?.nps?.total_promoters}
+                        end={providerComponentApi?.provider_nps?.promoter_count}
                         separator=","
                       />
                     </div>
                     <img src={RespondantsIcon} alt="number of promoters" />
                   </div>
-                  <div>
+                  <div className="">
                     {/* Fake graph */}
                     <div className=" rounded-full bg-[#000C08] bg-opacity-[6%] h-[24px] mt-1 border-2 border-[#000C08] border-opacity-[8%] flex justify-center items-center ">
-                      {apiData?.nps?.promoters && (
+                      {providerComponentApi?.provider_nps?.promoter && (
                         <div
-                          className={` ml-auto rounded-full bg-[#00AC69] transition-all ease-in duration-1000`}
-                          style={loaderAnimation}
+                          className={`min-w-[5%] ml-auto rounded-full bg-[#00AC69] transition-all ease-in duration-1000`}
+                          style={{
+                            width:
+                              providerComponentApi?.provider_nps?.promoter +
+                              "%",
+                            minWidth: "5%",
+                          }}
                         >
                           <div className="font-semibold  text-white ml-2">
-                            {apiData?.nps?.promoters < 1 ? (
-                              apiData?.nps?.promoters + "%"
+                            {providerComponentApi?.provider_nps?.promoter <
+                            1 ? (
+                              providerComponentApi?.provider_nps?.promoter + "%"
                             ) : (
                               <CountUp
                                 start={0}
                                 duration={1}
-                                end={apiData?.nps?.promoters}
+                                end={
+                                  providerComponentApi?.provider_nps?.promoter
+                                }
                                 separator=","
                                 suffix="%"
                               />
@@ -198,30 +216,30 @@ const ProviderNPS = () => {
                       <CountUp
                         start={0}
                         duration={1}
-                        end={apiData?.nps?.total_passive}
+                        end={providerComponentApi?.provider_nps?.passive_count}
                         separator=","
                       />
                     </div>
                     <img src={RespondantsIcon} alt="number of promoters" />
                   </div>
                   <div>
-                    {/* Fake graph */}
                     <div className="rounded-full bg-[#000C08] bg-opacity-[6%] h-[24px] mt-1 border-2 border-[#000C08] border-opacity-[8%] flex justify-center items-center">
                       <div
                         className={` ml-auto rounded-full bg-[#939799] transition-all ease-in duration-500`}
                         style={{
-                          width: passives + "%",
+                          width:
+                            providerComponentApi?.provider_nps?.passive + "%",
                           minWidth: "5%",
                         }}
                       >
                         <div className="font-semibold  text-white ml-2">
-                          {apiData?.nps?.passive < 1 ? (
-                            apiData?.nps?.passive + "%"
+                          {providerComponentApi?.provider_nps?.passive < 1 ? (
+                            providerComponentApi?.provider_nps?.passive + "%"
                           ) : (
                             <CountUp
                               start={0}
                               duration={1}
-                              end={apiData?.nps?.passive}
+                              end={providerComponentApi?.provider_nps?.passive}
                               separator=","
                               suffix="%"
                             />
@@ -243,30 +261,34 @@ const ProviderNPS = () => {
                       <CountUp
                         start={0}
                         duration={1}
-                        end={apiData?.nps?.total_detractors}
+                        end={
+                          providerComponentApi?.provider_nps?.detractor_count
+                        }
                         separator=","
                       />
                     </div>
                     <img src={RespondantsIcon} alt="number of promoters" />
                   </div>
                   <div>
-                    {/* Fake graph */}
                     <div className="rounded-full bg-[#000C08] bg-opacity-[6%] h-[24px] mt-1 border-2 border-[#000C08] border-opacity-[8%] flex justify-center items-center">
                       <div
                         className={`  ml-auto rounded-full bg-[#DB2B39] transition-all ease-in duration-1000`}
                         style={{
-                          width: detractors + "%",
+                          width:
+                            providerComponentApi?.provider_nps?.detractor + "%",
                           minWidth: "5%",
                         }}
                       >
                         <div className="font-semibold  text-white ml-2">
-                          {apiData?.nps?.detractors < 1 ? (
-                            apiData?.nps?.detractors + "%"
+                          {providerComponentApi?.provider_nps?.detractor < 1 ? (
+                            providerComponentApi?.provider_nps?.detractor + "%"
                           ) : (
                             <CountUp
                               start={0}
                               duration={1}
-                              end={apiData?.nps?.detractors}
+                              end={
+                                providerComponentApi?.provider_nps?.detractor
+                              }
                               separator=","
                               suffix="%"
                             />
@@ -288,7 +310,7 @@ const ProviderNPS = () => {
                     <CountUp
                       start={0}
                       duration={1}
-                      end={apiData?.nps?.nps_score}
+                      end={providerComponentApi?.provider_nps?.nps}
                       separator=","
                       suffix="%"
                     />
@@ -298,10 +320,10 @@ const ProviderNPS = () => {
 
               <div className=" w-[100%] md:min-w-[110px] ">
                 <ResponsiveContainer height={180} width="100%">
-                  <PieChart key={apiData?.nps}>
+                  <PieChart key={providerComponentApi?.provider_nps_pie}>
                     <Tooltip cursor={false} content={<CustomTooltip />} />
                     <Pie
-                      data={apiData?.nps_pie}
+                      data={providerComponentApi?.provider_nps_pie}
                       dataKey="percentage"
                       nameKey="label"
                       cx="50%"
@@ -315,9 +337,11 @@ const ProviderNPS = () => {
                       endAngle={-630}
                       minAngle={15}
                     >
-                      {apiData?.nps_pie?.map((entry, index) => (
-                        <Cell key={Math.random()} fill={entry?.color} />
-                      ))}
+                      {providerComponentApi?.provider_nps_pie?.map(
+                        (entry, index) => (
+                          <Cell key={Math.random()} fill={entry?.color} />
+                        )
+                      )}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
@@ -334,11 +358,15 @@ export default ProviderNPS;
 
 function CustomTooltip({ active, payload, label }) {
   const [npsAPIdataValue, setNpsApiDataValue] = useRecoilState(npsAPIdata);
+
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
   const [apiData, setApiData] = useState();
 
   useEffect(() => {
-    setApiData(npsAPIdataValue);
-  }, [npsAPIdataValue]);
+    setApiData(providerComponentApi);
+  }, [providerComponentApi]);
 
   if (active) {
     return (
@@ -348,7 +376,7 @@ function CustomTooltip({ active, payload, label }) {
             <div className="">
               <div className="flex justify-between items-center mb-2">
                 <h1 className="capitalize mr-5 text-[14px] font-semibold">
-                  {data?.name}s
+                  {data?.name}
                 </h1>
 
                 <div
@@ -368,11 +396,13 @@ function CustomTooltip({ active, payload, label }) {
                 <span className="text-[11px] font-semibold">Total count:</span>
                 <span className="text-[11px] font-semibold">
                   {data?.name === "Promoters"
-                    ? apiData?.nps?.total_promoters
+                    ? providerComponentApi?.provider_nps?.promoter_count
                     : ""}
-                  {data?.name === "Passives" ? apiData?.nps?.total_passive : ""}
+                  {data?.name === "Passives"
+                    ? providerComponentApi?.provider_nps?.passive_count
+                    : ""}
                   {data?.name === "Detractors"
-                    ? apiData?.nps?.total_detractors
+                    ? providerComponentApi?.provider_nps?.detractor_count
                     : ""}
                 </span>
               </div>

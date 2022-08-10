@@ -14,6 +14,10 @@ import regionStatusProvider from "../../../recoil/atoms/regionStatusProvider";
 import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
 import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvider";
 import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvider";
+import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
+import axios from "axios";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 
 // MUI Slider
 const YearSlider = styled(Slider)({
@@ -57,6 +61,9 @@ const YearSlider = styled(Slider)({
 
 const ProviderCalendar2 = () => {
   // Global variable
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
   const [datePickerStatus, setDatePickerStatus] = useRecoilState(
     ProviderDateFilterStatus
   );
@@ -75,12 +82,16 @@ const ProviderCalendar2 = () => {
     endMonthValueProvider
   );
 
+  const [selectedProvider, setSelectedProvider] =
+    useRecoilState(selectedProviderAtom);
+
   // Local variables
   const [val, setVal] = useState([finalStartDate, finalEndDate]);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
   const [endMonthVal, setEndMonthVal] = useState("Jun");
   const [endMonthNumVal, setEndMonthNumVal] = useState(6);
+  const [usernameLocal, setUsernameLocal] = useState();
 
   useEffect(() => {
     console.log("finalStartDate: ", finalStartDate);
@@ -255,6 +266,43 @@ const ProviderCalendar2 = () => {
           setAllDataRecievedStatus(false);
           //   setSendDataStatus(true);
           //   setGoStatus(!goStatus);
+
+          if (selectedProvider) {
+            setAllDataRecievedStatus(false);
+
+            // adding username in form data
+            const formdata = new FormData();
+            formdata.append("username", usernameLocal);
+            const ProviderSelectCall = axios
+              .post(
+                BASE_API_LINK +
+                  "providerScoreCard?start_month=" +
+                  finalStartMonth +
+                  "&start_year=" +
+                  finalStartDate +
+                  "&end_month=" +
+                  finalEndMonth +
+                  "&end_year=" +
+                  finalEndDate +
+                  "&provider=" +
+                  selectedProvider,
+                formdata,
+                {
+                  headers: {
+                    authorization: sessionStorage.getItem("token"),
+                    Accept: "application/json",
+                  },
+                }
+              )
+              .then((res) => {
+                console.log(
+                  "provider submit api res calendarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr:"
+                );
+                console.log(res?.data);
+                setProviderComponentApi(res?.data);
+                setAllDataRecievedStatus(true);
+              });
+          }
         }}
       >
         Submit

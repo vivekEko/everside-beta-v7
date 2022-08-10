@@ -28,6 +28,7 @@ import endMonthValue from "../../../recoil/atoms/EndMonth";
 import newRegionGlobalValue from "../../../recoil/atoms/newRegionGlobalValue";
 import ClinicValue from "../../../recoil/atoms/ClinicValue";
 import clientValue from "../../../recoil/atoms/clientValue";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 
 const ProviderComments = () => {
   const [inputData, setInputData] = useState("");
@@ -64,6 +65,10 @@ const ProviderComments = () => {
     useRecoilState(newRegionGlobalValue);
   const [selectedClientValue, setSelectedClientValue] =
     useRecoilState(clientValue);
+
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
 
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
@@ -126,48 +131,8 @@ const ProviderComments = () => {
   }, [ascSort]);
 
   useEffect(() => {
-    let arr = [];
-
-    if (ascSort === false) {
-      setApiData(allCommentsAPIData?.data);
-    }
-
-    if (selectedSentiments?.length === 0) {
-      setApiData(allCommentsAPIData?.data);
-    } else {
-      for (let i in selectedSentiments) {
-        if (selectedSentiments[i] === "Positive") {
-          if (positiveCommentAtom?.count > 0) {
-            arr = [...arr, ...positiveCommentAtom?.data];
-          }
-        }
-        if (selectedSentiments[i] === "Negative") {
-          if (negativeCommentAtom?.count > 0) {
-            arr = [...arr, ...negativeCommentAtom?.data];
-          }
-        }
-        if (selectedSentiments[i] === "Neutral") {
-          if (neutralCommentAtom?.count > 0) {
-            arr = [...arr, ...neutralCommentAtom?.data];
-          }
-        }
-
-        if (selectedSentiments[i] === "Extreme") {
-          if (extremeCommentAtom?.count > 0) {
-            arr = [...arr, ...extremeCommentAtom?.data];
-          }
-        }
-      }
-
-      arr = arr.sort(function (x, y) {
-        return x?.time - y?.time;
-      });
-
-      if (arr.length > 0) {
-        setApiData(arr.reverse());
-      }
-    }
-  }, [allCommentsAPIData, selectedSentiments]);
+    setApiData(providerComponentApi?.provider_comments);
+  }, [providerComponentApi]);
 
   // function to remove selected text from array
   function arrayRemove(arr, value) {
@@ -227,7 +192,7 @@ const ProviderComments = () => {
                 />
               </div>
 
-              <a
+              {/* <a
                 href={
                   BASE_API_LINK +
                   "totalCommentsDownload?" +
@@ -256,7 +221,7 @@ const ProviderComments = () => {
                   fontSize="small"
                   className="cursor-pointer text-gray-400"
                 />
-              </a>
+              </a> */}
             </div>
           </div>
           <div className=" h-[350px]  ">
@@ -302,15 +267,15 @@ const ProviderComments = () => {
 
                       <div
                         className="font-normal     text-gray-400 capitalize relative  "
-                        ref={ref}
+                        // ref={ref}
                       >
                         <div
                           className="text-gray-400 cursor-pointer hover:text-gray-600 transition-all  inline-block w-full h-full   text-center"
-                          onClick={() => setShowSentiments(!showSentiments)}
+                          // onClick={() => setShowSentiments(!showSentiments)}
                         >
                           <span>Sentiment</span>
 
-                          <img
+                          {/* <img
                             src={chevron}
                             alt=" select sentiment"
                             className={` ${
@@ -318,10 +283,10 @@ const ProviderComments = () => {
                                 ? "rotate-0 ease-in"
                                 : "rotate-180 ease-in"
                             } transition-all inline w-[6px] ml-1 `}
-                          />
+                          /> */}
                         </div>
 
-                        <div
+                        {/* <div
                           className={` ${
                             showSentiments ? "block" : "hidden "
                           } absolute bg-white  top-[100%] w-[130px] right-0 shadow-lg rounded-lg `}
@@ -403,7 +368,7 @@ const ProviderComments = () => {
                           >
                             Clear all
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -455,7 +420,7 @@ const ProviderComments = () => {
                                   {data?.clinic}
                                 </div>
                                 <div className=" text-gray-400    font-normal ">
-                                  {data?.client}
+                                  {data?.reason}
                                 </div>
 
                                 {data?.label == "Positive" && (

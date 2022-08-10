@@ -26,9 +26,12 @@ import FormatColorResetOutlinedIcon from "@mui/icons-material/FormatColorResetOu
 import SelectProvider from "./SelectProvider";
 import providersApiData from "../../../recoil/atoms/providersApiData";
 import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
+import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
 
 const ProviderScorePage = () => {
   // Global Variables
+
   const [callRegion, setCallRegion] = useRecoilState(regionStatusProvider);
   const [finalStartDate, setFinalStartDate] = useRecoilState(
     startDateValueProvider
@@ -62,6 +65,12 @@ const ProviderScorePage = () => {
     useRecoilState(flushClientProvider);
   const [providerAPIDATA, setProviderAPIDATA] =
     useRecoilState(providersApiData);
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
+
+  const [selectedProvider, setSelectedProvider] =
+    useRecoilState(selectedProviderAtom);
 
   // local variables
   const [usernameLocal, setUsernameLocal] = useState();
@@ -71,13 +80,13 @@ const ProviderScorePage = () => {
     setUsernameLocal(sessionStorage?.getItem("username"));
   }, [sessionStorage?.getItem("username")]);
 
-  // adding username in form data
-  const formdata = new FormData();
-  formdata.append("username", usernameLocal);
-
   // Call Region
   useEffect(async () => {
     if (callRegion === true && usernameLocal) {
+      // adding username in form data
+      const formdata = new FormData();
+      formdata.append("username", usernameLocal);
+
       const firstAPIdata = await axios.post(
         BASE_API_LINK +
           "filterDateProvider?start_month=" +
@@ -128,24 +137,47 @@ const ProviderScorePage = () => {
     }
   }, [callRegion, usernameLocal]);
 
+  useEffect(() => {
+    console.log("providerComponentApi from score page");
+    console.log(providerComponentApi);
+  }, [providerComponentApi]);
+
   return (
     <div className=" min-h-[90vh]">
       <ProviderFilter2 />
       <SelectProvider />
-      <div>
-        <div className="flex items-center gap-2 flex-col lg:flex-row  ">
-          <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
-            <ProviderInfo />
-            <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
-              <ProviderNPS />
-            </div>
+      <div className=" ">
+        {providerComponentApi ? (
+          <div>
+            {providerComponentApi?.Message === "TRUE" ? (
+              <div>
+                <div className="flex items-center gap-2 flex-col lg:flex-row  ">
+                  <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
+                    <ProviderInfo />
+                    <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
+                      <ProviderNPS />
+                    </div>
+                  </div>
+                  <ProviderTotalCard />
+                </div>
+                <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
+                  <ProviderAllGraph />
+                  <ProviderComments />
+                </div>
+              </div>
+            ) : (
+              <div className="min-h-[80vh]  w-full text-3xl text-gray-400 flex justify-center items-center">
+                {providerComponentApi?.Message === "ERROR" && (
+                  <div className="">{providerComponentApi?.Comment}</div>
+                )}
+              </div>
+            )}
           </div>
-          <ProviderTotalCard />
-        </div>
-        <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
-          <ProviderAllGraph />
-          <ProviderComments />
-        </div>
+        ) : (
+          <div className="min-h-[80vh]  w-full text-3xl text-gray-400 flex justify-center items-center">
+            Select a provider to display analytics
+          </div>
+        )}
       </div>
     </div>
   );

@@ -2,8 +2,15 @@ import React, { useRef } from "react";
 import doctorIcon from "../../../assets/img/NPS Dashboard/DoctorIcon.svg";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
+import { useRecoilState } from "recoil";
 
 const ProviderInfo = () => {
+  // GLobal variable
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
+
   const ProviderNPSComponent = useRef();
 
   return (
@@ -13,7 +20,7 @@ const ProviderInfo = () => {
     >
       <div className="flex justify-between items-center">
         <h1 className="font-bold opacity-80 text-lg">Provider Info</h1>
-        <h1
+        {/* <h1
           onClick={() => exportComponentAsPNG(ProviderNPSComponent)}
           className="font-bold opacity-80 text-lg cursor-pointer"
         >
@@ -22,7 +29,7 @@ const ProviderInfo = () => {
             fontSize="small"
             className="text-gray-400"
           />
-        </h1>
+        </h1> */}
       </div>
       <div className="flex flex-col items-center h-[250px] w-full ">
         <div className="h-full w-full flex justify-center items-center ">
@@ -30,17 +37,17 @@ const ProviderInfo = () => {
         </div>
         <div className="h-full w-full   flex flex-col justify-center items-center">
           <h1 className="text-xl 2xl:text-2xl font-medium">
-            Alexander Bingcang
+            {providerComponentApi?.provider_info?.name}
           </h1>
           <div className="flex justify-center gap-[20px] mt-4">
             <div className="bg-[#e6f5fc91] p-2 rounded-md text-[#45b1e8] font-medium relative group ">
-              <span>DO</span>
+              <span>{providerComponentApi?.provider_info?.type}</span>
               <div className="absolute hidden group-hover:block p-2 bg-gray-100 rounded-md top-[105%]  w-max text-gray-500 text-xs  z-50 ">
                 Provider Type
               </div>
             </div>
             <div className="bg-[#e6f5fc91] p-2 rounded-md text-[#45b1e8] font-medium relative group ">
-              <span>Physician</span>
+              <span>{providerComponentApi?.provider_info?.category}</span>
 
               <div className="absolute hidden group-hover:block p-2 bg-gray-100 rounded-md top-[105%]  w-max text-gray-500 text-xs  z-50 ">
                 Provider Category

@@ -4,15 +4,49 @@ import providersApiData from "../../../recoil/atoms/providersApiData";
 import { useRecoilState } from "recoil";
 import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
 import { useDetectClickOutside } from "react-detect-click-outside";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
+import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
+import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvider";
+import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
+import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
+import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvider";
+import axios from "axios";
+import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
+import regionStatusProvider from "../../../recoil/atoms/regionStatusProvider";
 
 const SelectProvider = () => {
   // Global Variables
+  const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
+    allDataRecievedProvider
+  );
   const [providerAPIDATA, setProviderAPIDATA] =
     useRecoilState(providersApiData);
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
+
+  const [finalStartDate, setFinalStartDate] = useRecoilState(
+    startDateValueProvider
+  );
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(
+    startMonthValueProvider
+  );
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValueProvider);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(
+    endMonthValueProvider
+  );
+
+  const [selectedProvider, setSelectedProvider] =
+    useRecoilState(selectedProviderAtom);
+
+  const [callRegion, setCallRegion] = useRecoilState(regionStatusProvider);
+
   // Local variables
   const [providerListStatus, setProviderListStatus] = useState(false);
   const [inputData, setInputData] = useState("");
-  const [selectedProvider, setSelectedProvider] = useState(null);
+
+  const [usernameLocal, setUsernameLocal] = useState();
 
   //   Search bar input field
   const handleInput = (e) => {
@@ -34,6 +68,43 @@ const SelectProvider = () => {
   };
 
   const ref = useDetectClickOutside({ onTriggered: closeToggle });
+
+  useEffect(() => {
+    if (selectedProvider) {
+      setAllDataRecievedStatus(false);
+
+      // adding username in form data
+      const formdata = new FormData();
+      formdata.append("username", usernameLocal);
+      const ProviderSelectCall = axios
+        .post(
+          BASE_API_LINK +
+            "providerScoreCard?start_month=" +
+            finalStartMonth +
+            "&start_year=" +
+            finalStartDate +
+            "&end_month=" +
+            finalEndMonth +
+            "&end_year=" +
+            finalEndDate +
+            "&provider=" +
+            selectedProvider,
+          formdata,
+          {
+            headers: {
+              authorization: sessionStorage.getItem("token"),
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log("provider submit api res:");
+          console.log(res?.data);
+          setProviderComponentApi(res?.data);
+          setAllDataRecievedStatus(true);
+        });
+    }
+  }, [selectedProvider]);
 
   return (
     <div className=" mb-2">
