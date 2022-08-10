@@ -10,9 +10,23 @@ import clientAPIdataProvider from "../../../recoil/atoms/clientAPIdataProvider";
 import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
 import clientDataLengthAtom from "../../../recoil/atoms/clientDataLengthAtom";
 import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
+import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
+import selectedClientProvider from "../../../recoil/atoms/selectedClientProvider";
+import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
+import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvider";
+import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
+import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
+import axios from "axios";
+import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import providersApiData from "../../../recoil/atoms/providersApiData";
 
 const ProviderClient2 = () => {
   // Global variabbles
+  const [providerAPIDATA, setProviderAPIDATA] =
+    useRecoilState(providersApiData);
+  const [allFilterData, setAllFilterData] = useRecoilState(
+    AllFilterDataProvider
+  );
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
   const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
@@ -26,11 +40,24 @@ const ProviderClient2 = () => {
     useRecoilState(flushClientProvider);
   const [clientDataLength, setClientDataLength] =
     useRecoilState(clientDataLengthAtom);
+  const [clientLocal, setClientLocal] = useRecoilState(selectedClientProvider);
+
+  const [finalStartDate, setFinalStartDate] = useRecoilState(
+    startDateValueProvider
+  );
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(
+    startMonthValueProvider
+  );
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValueProvider);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(
+    endMonthValueProvider
+  );
+
   // Local variables
-  const [clientLocal, setClientLocal] = useState([]);
   const [clientStatusLocal, setClientStatusoLocal] = useState(false);
   const [inputData, setInputData] = useState("");
   const [clearFilterVar, setClearFilterVar] = useState(false);
+  const [usernameLocal, setUsernameLocal] = useState();
 
   // Close on outside click functionality
   const closeToggle = () => {
@@ -62,6 +89,52 @@ const ProviderClient2 = () => {
   useEffect(() => {
     setClientDataLength(clientLocal.length);
   }, [clientLocal]);
+
+  // getting username from session storage
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
+  function handleClientSubmit() {
+    setAllDataRecievedStatus(false);
+    setClientStatusoLocal(false);
+
+    const paramText = clientLocal.join(",");
+
+    // adding username in form data
+    const formdata = new FormData();
+    formdata.append("username", usernameLocal);
+
+    const clientSubmitCall = axios
+      .post(
+        BASE_API_LINK +
+          "filterClientProvider?start_month=" +
+          finalStartMonth +
+          "&start_year=" +
+          finalStartDate +
+          "&end_month=" +
+          finalEndMonth +
+          "&end_year=" +
+          finalEndDate +
+          "&client=" +
+          paramText,
+        formdata,
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("client submit api res:");
+        console.log(res?.data);
+
+        setAllFilterData(res?.data);
+        setProviderAPIDATA(res?.data);
+        setAllDataRecievedStatus(true);
+      });
+  }
 
   return (
     <div
@@ -234,6 +307,8 @@ const ProviderClient2 = () => {
                 //     setRunClientAPI(false);
                 //   }, 500);
                 // }}
+
+                onClick={handleClientSubmit}
               >
                 Submit
               </div>

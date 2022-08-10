@@ -25,6 +25,7 @@ import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
 import FormatColorResetOutlinedIcon from "@mui/icons-material/FormatColorResetOutlined";
 import SelectProvider from "./SelectProvider";
 import providersApiData from "../../../recoil/atoms/providersApiData";
+import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
 
 const ProviderScorePage = () => {
   // Global Variables
@@ -41,6 +42,9 @@ const ProviderScorePage = () => {
   );
   const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
     allDataRecievedProvider
+  );
+  const [allFilterData, setAllFilterData] = useRecoilState(
+    AllFilterDataProvider
   );
 
   const [regionGlobal, setRegionGlobal] = useRecoilState(regionGlobalProvider);
@@ -94,6 +98,9 @@ const ProviderScorePage = () => {
       );
 
       if (firstAPIdata) {
+        console.log("firstAPIdata?.data:");
+        console.log(firstAPIdata?.data?.region);
+        setAllFilterData(firstAPIdata?.data);
         setProviderAPIDATA(firstAPIdata?.data);
         setRegionGlobal(firstAPIdata?.data?.region);
         setClinicAPIData(firstAPIdata?.data?.clinic);
@@ -125,18 +132,20 @@ const ProviderScorePage = () => {
     <div className=" min-h-[90vh]">
       <ProviderFilter2 />
       <SelectProvider />
-      <div className="flex items-center gap-2 flex-col lg:flex-row  ">
-        <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
-          <ProviderInfo />
-          <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
-            <ProviderNPS />
+      <div>
+        <div className="flex items-center gap-2 flex-col lg:flex-row  ">
+          <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
+            <ProviderInfo />
+            <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
+              <ProviderNPS />
+            </div>
           </div>
+          <ProviderTotalCard />
         </div>
-        <ProviderTotalCard />
-      </div>
-      <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
-        <ProviderAllGraph />
-        <ProviderComments />
+        <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
+          <ProviderAllGraph />
+          <ProviderComments />
+        </div>
       </div>
     </div>
   );

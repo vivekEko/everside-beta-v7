@@ -36,6 +36,8 @@ const ProviderNPS = () => {
 
   useEffect(() => {
     setApiData(npsApiData);
+    // console.log("nps Data:");
+    // console.log(npsApiData);
   }, [npsApiData]);
 
   useEffect(() => {

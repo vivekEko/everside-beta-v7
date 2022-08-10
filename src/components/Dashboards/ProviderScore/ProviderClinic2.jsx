@@ -11,9 +11,24 @@ import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvid
 import callClinicProvider from "../../../recoil/atoms/callClinicProvider";
 import clinicProviderAPI from "../../../recoil/atoms/clinicProviderAPI";
 import clinicDataLengthAtom from "../../../recoil/atoms/clinicDataLengthAtom";
+import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
+import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
+import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvider";
+import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
+import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
+import axios from "axios";
+import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import selectedClinicProvider from "../../../recoil/atoms/selectedClinicProvider";
+import providersApiData from "../../../recoil/atoms/providersApiData";
+import clientAPIdataProvider from "../../../recoil/atoms/clientAPIdataProvider";
 
 const ProviderClinic2 = () => {
   // Global variables
+  const [providerAPIDATA, setProviderAPIDATA] =
+    useRecoilState(providersApiData);
+  const [allFilterData, setAllFilterData] = useRecoilState(
+    AllFilterDataProvider
+  );
   const [datePickerStatus, setDatePickerStatus] = useRecoilState(
     ProviderDateFilterStatus
   );
@@ -28,11 +43,25 @@ const ProviderClinic2 = () => {
   const [clinicDataLength, setClinicDataLength] =
     useRecoilState(clinicDataLengthAtom);
 
+  const [finalStartDate, setFinalStartDate] = useRecoilState(
+    startDateValueProvider
+  );
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(
+    startMonthValueProvider
+  );
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValueProvider);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(
+    endMonthValueProvider
+  );
+  const [clinicLocal, setClinicLocal] = useRecoilState(selectedClinicProvider);
+  const [clientAPIdata, setClientDataProvider] = useRecoilState(
+    clientAPIdataProvider
+  );
   // Local Variables
   const [clinicStatusLocal, setClinicStatusoLocal] = useState(false);
-  const [clinicLocal, setClinicLocal] = useState([]);
   const [inputData, setInputData] = useState("");
   const [regionShowStatus, setRegionShowStatus] = useState(false);
+  const [usernameLocal, setUsernameLocal] = useState();
 
   // Click outside to close filter functionality
   const closeToggle = () => {
@@ -64,6 +93,53 @@ const ProviderClinic2 = () => {
   useEffect(() => {
     setClinicDataLength(clinicLocal.length);
   }, [clinicLocal]);
+
+  // getting username from session storage
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
+  // handle submit
+  function handleClientSubmit() {
+    setAllDataRecievedStatus(false);
+    setClinicStatusoLocal(false);
+
+    const paramText = clinicLocal.join(",");
+
+    // adding username in form data
+    const formdata = new FormData();
+    formdata.append("username", usernameLocal);
+
+    const clinicSubmitCall = axios
+      .post(
+        BASE_API_LINK +
+          "filterClinicProvider?start_month=" +
+          finalStartMonth +
+          "&start_year=" +
+          finalStartDate +
+          "&end_month=" +
+          finalEndMonth +
+          "&end_year=" +
+          finalEndDate +
+          "&clinic=" +
+          paramText,
+        formdata,
+        {
+          headers: {
+            authorization: sessionStorage.getItem("token"),
+            Accept: "application/json",
+          },
+        }
+      )
+      .then((res) => {
+        console.log("clinic submit api res:");
+        console.log(res?.data);
+        setProviderAPIDATA(res?.data);
+        setAllFilterData(res?.data);
+        setClientDataProvider(res?.data?.client);
+        setAllDataRecievedStatus(true);
+      });
+  }
 
   return (
     <div
@@ -227,18 +303,19 @@ const ProviderClinic2 = () => {
               </div>
               <div
                 className="p-1 rounded-lg bg-[#00ac69] text-white w-[100px] text-center  active:scale-95 transition-all cursor-pointer"
-                onClick={() => {
-                  setClinicStatusoLocal(!clinicStatusLocal);
-                  //   setFilterButtonStatus(true);
-                  //   setSendDataStatus(true);
-                  //   setRunClientAPI(true);
+                // onClick={() => {
+                // setClinicStatusoLocal(!clinicStatusLocal);
+                //   setFilterButtonStatus(true);
+                //   setSendDataStatus(true);
+                //   setRunClientAPI(true);
 
-                  //   setTimeout(() => {
-                  //     setRunClientAPI(false);
-                  //   }, 500);
-                  //   setGoStatus(!goStatus);
-                  setAllDataRecievedStatus(false);
-                }}
+                //   setTimeout(() => {
+                //     setRunClientAPI(false);
+                //   }, 500);
+                //   setGoStatus(!goStatus);
+                // setAllDataRecievedStatus(false);
+                // }}
+                onClick={handleClientSubmit}
               >
                 Submit
               </div>

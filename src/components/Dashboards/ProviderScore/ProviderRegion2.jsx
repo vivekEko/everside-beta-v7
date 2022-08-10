@@ -20,9 +20,15 @@ import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider"
 import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
 import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
 import providersApiData from "../../../recoil/atoms/providersApiData";
+import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
+import clinicProviderAPI from "../../../recoil/atoms/clinicProviderAPI";
 
 const ProviderRegion2 = () => {
   // Global Variables
+  const [allFilterData, setAllFilterData] = useRecoilState(
+    AllFilterDataProvider
+  );
+  const [clinicAPIData, setClinicAPIData] = useRecoilState(clinicProviderAPI);
   const [datePickerStatus, setDatePickerStatus] =
     useRecoilState(DateFilterStatus);
   const [callRegion, setCallRegion] = useRecoilState(regionStatusProvider);
@@ -75,7 +81,7 @@ const ProviderRegion2 = () => {
 
   // handle All select
   function handleAllSelect() {
-    if (regionGlobal.length > regionLocal.length) {
+    if (regionGlobal?.length > regionLocal.length) {
       regionGlobal?.map((data) =>
         setRegionLocal((regionLocal) => [
           ...regionLocal,
@@ -140,8 +146,12 @@ const ProviderRegion2 = () => {
         }
       )
       .then((res) => {
-        console.log("api res:");
+        console.log("region submit api res:");
         console.log(res?.data);
+
+        setAllFilterData(res?.data);
+
+        setClinicAPIData(res?.data?.clinic);
 
         setProviderAPIDATA(res?.data);
 

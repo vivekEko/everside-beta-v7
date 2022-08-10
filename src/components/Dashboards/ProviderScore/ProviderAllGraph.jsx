@@ -43,14 +43,14 @@ const ProviderAllGraph = () => {
       id: 2,
       name: "Promoters",
     },
-    {
-      id: 3,
-      name: "Passives",
-    },
-    {
-      id: 4,
-      name: "Detractors",
-    },
+    // {
+    //   id: 3,
+    //   name: "Passives",
+    // },
+    // {
+    //   id: 4,
+    //   name: "Detractors",
+    // },
   ];
 
   const [apiData, setApiData] = useState();
@@ -60,8 +60,8 @@ const ProviderAllGraph = () => {
 
   useEffect(() => {
     setApiData(npsOverTimeAPIData);
-    // console.log("atom data nps all component");
-    // console.log(npsOverTimeAPIData);
+    console.log("atom data nps all provider component");
+    console.log(npsOverTimeAPIData);
   }, [npsOverTimeAPIData]);
 
   const closeToggle = () => {
@@ -73,8 +73,8 @@ const ProviderAllGraph = () => {
   function handleReset() {
     setFilterStatus(false);
     setPromoters(false);
-    setPassives(false);
-    setDetractors(false);
+    // setPassives(false);
+    // setDetractors(false);
     setNpsScore(true);
     setSpinAnimation(true);
     setTimeout(() => setSpinAnimation(false), 1000);
@@ -148,42 +148,18 @@ const ProviderAllGraph = () => {
                       className={` flex justify-end flex-row-reverse items-center gap-5 p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
                       onClick={() => {
                         // new logic
-                        if (promoters || passives || detractors || npsScore) {
+                        if (promoters || npsScore) {
                           if (data.id === 1) {
-                            if (
-                              (promoters || passives || detractors) &&
-                              npsScore === true
-                            ) {
+                            if (promoters && npsScore === true) {
                               setNpsScore(false);
                             } else {
                               setNpsScore(true);
                             }
                           } else if (data.id === 2) {
-                            if (
-                              (passives || detractors || npsScore) &&
-                              promoters === true
-                            ) {
+                            if (npsScore && promoters === true) {
                               setPromoters(false);
                             } else {
                               setPromoters(true);
-                            }
-                          } else if (data.id === 3) {
-                            if (
-                              (promoters || detractors || npsScore) &&
-                              passives === true
-                            ) {
-                              setPassives(false);
-                            } else {
-                              setPassives(true);
-                            }
-                          } else if (data.id === 4) {
-                            if (
-                              (promoters || passives || npsScore) &&
-                              detractors === true
-                            ) {
-                              setDetractors(false);
-                            } else {
-                              setDetractors(true);
                             }
                           }
                         }
@@ -203,14 +179,7 @@ const ProviderAllGraph = () => {
                            ? "bg-[#AFA2FF]"
                            : "bg-white"
                        }
-                      ${
-                        passives && data?.id === 3 ? "bg-[#939799]" : "bg-white"
-                      }
-                      ${
-                        detractors && data?.id === 4
-                          ? "bg-[#DB2B39]"
-                          : "bg-white"
-                      }
+                  
                      
                       `}
                       ></div>

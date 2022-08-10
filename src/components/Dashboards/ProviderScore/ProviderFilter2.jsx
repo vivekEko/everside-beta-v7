@@ -87,10 +87,6 @@ const ProviderFilter2 = () => {
     "Dec",
   ];
 
-  useEffect(() => {
-    setAllDataRecievedStatus(true);
-  }, []);
-
   // clear filter logic
   useEffect(() => {
     setFlushRegionvalue(true);

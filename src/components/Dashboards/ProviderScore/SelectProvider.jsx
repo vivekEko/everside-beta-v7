@@ -3,6 +3,7 @@ import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownR
 import providersApiData from "../../../recoil/atoms/providersApiData";
 import { useRecoilState } from "recoil";
 import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 const SelectProvider = () => {
   // Global Variables
@@ -27,10 +28,18 @@ const SelectProvider = () => {
     console.log(selectedProvider);
   }, [selectedProvider]);
 
+  // Click outside to close filter functionality
+  const closeToggle = () => {
+    setProviderListStatus(false);
+  };
+
+  const ref = useDetectClickOutside({ onTriggered: closeToggle });
+
   return (
     <div className=" mb-2">
       <div className="flex  text-gray-500   text-sm relative">
         <div
+          ref={ref}
           onClick={() => setProviderListStatus(!providerListStatus)}
           className=" w-fit border cursor-pointer rounded-md p-2 px-3 space-x-2 flex justify-between items-center"
         >
@@ -62,7 +71,7 @@ const SelectProvider = () => {
           </div>
 
           <div
-            className="mt-2 z-[50]  h-[250px]
+            className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
 overflow-y-scroll"
           >
             {providerAPIDATA?.provider
@@ -89,6 +98,13 @@ overflow-y-scroll"
                       name={data}
                       value={data}
                       checked={selectedProvider === data ? true : false}
+                      onChange={() => {
+                        if (selectedProvider === data) {
+                          setSelectedProvider(null);
+                        } else {
+                          setSelectedProvider(data);
+                        }
+                      }}
                       //   onChange={() => {
                       //     if (providerLocal?.includes(data)) {
                       //       console.log(data + " already exits");
