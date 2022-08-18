@@ -47,6 +47,7 @@ const SelectProvider = () => {
   const [inputData, setInputData] = useState("");
 
   const [usernameLocal, setUsernameLocal] = useState();
+  const [sendEmail, setSendEmail] = useState(0);
 
   //   Search bar input field
   const handleInput = (e) => {
@@ -106,125 +107,177 @@ const SelectProvider = () => {
     }
   }, [selectedProvider]);
 
+  useEffect(() => {
+    if (selectedProvider) {
+      // setAllDataRecievedStatus(false);
+
+      // adding username in form data
+      const formdata = new FormData();
+      formdata.append("username", usernameLocal);
+      const ProviderEmailcall = axios
+        .post(
+          BASE_API_LINK +
+            "providerEmail?start_month=" +
+            finalStartMonth +
+            "&start_year=" +
+            finalStartDate +
+            "&end_month=" +
+            finalEndMonth +
+            "&end_year=" +
+            finalEndDate +
+            "&provider=" +
+            selectedProvider,
+          formdata,
+          {
+            headers: {
+              authorization: sessionStorage.getItem("token"),
+              Accept: "application/json",
+            },
+          }
+        )
+        .then((res) => {
+          console.log("provider email api res:");
+          console.log(res?.data);
+          // setProviderComponentApi(res?.data);
+          // setAllDataRecievedStatus(true);
+        });
+    }
+  }, [sendEmail]);
+
   return (
     <div className=" mb-2">
-      <div className="flex  text-gray-500   text-sm relative">
-        <div
-          ref={ref}
-          onClick={() => setProviderListStatus(!providerListStatus)}
-          className=" w-fit border cursor-pointer rounded-md p-2 px-3 space-x-2 flex justify-between items-center"
-        >
-          <span>Select Provider</span>
-          <span className="">
-            <KeyboardArrowDownRoundedIcon className={`  text-gray-500  `} />
-          </span>
-        </div>
-
-        <div
-          className={`${
-            providerListStatus ? "block" : "hidden"
-          } absolute left-0 top-[120%] transition-all   text-xl  w-[220px] rounded-md  shadow-2xl z-50 bg-white  border `}
-        >
-          {/* search */}
-          <div className=" bg-white h-[30px] sticky top-0 z-[99]  rounded-md ">
-            <div className=" flex items-center p-2  border-b gap-2">
-              <div className=" w-fit flex justify-center items-center h-full">
-                <img src={seachIcon} alt="search bar" />
-              </div>
-              <input
-                type="text"
-                className="outline-none border-0  w-full text-xs  "
-                placeholder="Search..."
-                onChange={handleInput}
-                value={inputData}
-              />
-            </div>
+      <div className="flex  text-gray-500 justify-between   text-sm relative ">
+        <div className="">
+          <div
+            ref={ref}
+            onClick={() => setProviderListStatus(!providerListStatus)}
+            className=" w-fit border cursor-pointer rounded-md p-2 px-3 space-x-2 flex justify-between items-center"
+          >
+            <span>Select Provider</span>
+            <span className="">
+              <KeyboardArrowDownRoundedIcon className={`  text-gray-500  `} />
+            </span>
           </div>
 
           <div
-            className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
-overflow-y-scroll"
+            className={`${
+              providerListStatus ? "block" : "hidden"
+            } absolute left-0 top-[120%] transition-all   text-xl  w-[220px] rounded-md  shadow-2xl z-50 bg-white  border `}
           >
-            {providerAPIDATA?.provider
-              ?.filter((filtered_value) => {
-                if (inputData === "") {
-                  return filtered_value;
-                } else if (
-                  filtered_value
-                    ?.toLowerCase()
-                    ?.includes(inputData.toLowerCase())
-                ) {
-                  return filtered_value;
-                }
-              })
-              ?.map((data, index) => {
-                return (
-                  <div
-                    key={index + 1}
-                    className="flex justify-start items-center gap-2 mb-2 px-2"
-                  >
-                    <input
-                      className=""
-                      type="radio"
-                      name={data}
-                      value={data}
-                      checked={selectedProvider === data ? true : false}
-                      onChange={() => {
-                        if (selectedProvider === data) {
-                          setSelectedProvider(null);
-                        } else {
-                          setSelectedProvider(data);
-                        }
-                      }}
-                      //   onChange={() => {
-                      //     if (providerLocal?.includes(data)) {
-                      //       console.log(data + " already exits");
-                      //       setProviderLocal((providerLocal) =>
-                      //         arrayRemove(providerLocal, data)
-                      //       );
-                      //     } else {
-                      //       setProviderLocal((providerLocal) => [
-                      //         ...providerLocal,
-                      //         data,
-                      //       ]);
-                      //     }
-                      //   }}
-                    />
+            {/* search */}
+            <div className=" bg-white h-[30px] sticky top-0 z-[99]  rounded-md ">
+              <div className=" flex items-center p-2  border-b gap-2">
+                <div className=" w-fit flex justify-center items-center h-full">
+                  <img src={seachIcon} alt="search bar" />
+                </div>
+                <input
+                  type="text"
+                  className="outline-none border-0  w-full text-xs  "
+                  placeholder="Search..."
+                  onChange={handleInput}
+                  value={inputData}
+                />
+              </div>
+            </div>
 
-                    <label
-                      htmlFor={data}
-                      className="text-sm ml-5"
-                      //   onClick={() => {
-                      //     {
-                      //       if (providerLocal?.includes(data)) {
-                      //         console.log(data + " already exits");
-                      //         setProviderLocal((providerLocal) =>
-                      //           arrayRemove(providerLocal, data)
-                      //         );
-                      //       } else {
-                      //         setProviderLocal((providerLocal) => [
-                      //           ...providerLocal,
-                      //           data,
-                      //         ]);
-                      //       }
-                      //     }
-                      //   }}
-
-                      onClick={() => {
-                        if (selectedProvider === data) {
-                          setSelectedProvider(null);
-                        } else {
-                          setSelectedProvider(data);
-                        }
-                      }}
+            <div
+              className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
+overflow-y-scroll"
+            >
+              {providerAPIDATA?.provider
+                ?.filter((filtered_value) => {
+                  if (inputData === "") {
+                    return filtered_value;
+                  } else if (
+                    filtered_value
+                      ?.toLowerCase()
+                      ?.includes(inputData.toLowerCase())
+                  ) {
+                    return filtered_value;
+                  }
+                })
+                ?.map((data, index) => {
+                  return (
+                    <div
+                      key={index + 1}
+                      className="flex justify-start items-center gap-2 mb-2 px-2"
                     >
-                      <p className="text-ellipsis overflow-hidden ... ">
-                        {data}
-                      </p>
-                    </label>
-                  </div>
-                );
-              })}
+                      <input
+                        className=""
+                        type="radio"
+                        name={data}
+                        value={data}
+                        checked={selectedProvider === data ? true : false}
+                        onChange={() => {
+                          if (selectedProvider === data) {
+                            setSelectedProvider(null);
+                          } else {
+                            setSelectedProvider(data);
+                          }
+                        }}
+                        //   onChange={() => {
+                        //     if (providerLocal?.includes(data)) {
+                        //       console.log(data + " already exits");
+                        //       setProviderLocal((providerLocal) =>
+                        //         arrayRemove(providerLocal, data)
+                        //       );
+                        //     } else {
+                        //       setProviderLocal((providerLocal) => [
+                        //         ...providerLocal,
+                        //         data,
+                        //       ]);
+                        //     }
+                        //   }}
+                      />
+
+                      <label
+                        htmlFor={data}
+                        className="text-sm ml-5"
+                        //   onClick={() => {
+                        //     {
+                        //       if (providerLocal?.includes(data)) {
+                        //         console.log(data + " already exits");
+                        //         setProviderLocal((providerLocal) =>
+                        //           arrayRemove(providerLocal, data)
+                        //         );
+                        //       } else {
+                        //         setProviderLocal((providerLocal) => [
+                        //           ...providerLocal,
+                        //           data,
+                        //         ]);
+                        //       }
+                        //     }
+                        //   }}
+
+                        onClick={() => {
+                          if (selectedProvider === data) {
+                            setSelectedProvider(null);
+                          } else {
+                            setSelectedProvider(data);
+                          }
+                        }}
+                      >
+                        <p className="text-ellipsis overflow-hidden ... ">
+                          {data}
+                        </p>
+                      </label>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+
+        <div className="">
+          <div
+            onClick={() => setSendEmail(!sendEmail)}
+            className={` ${
+              selectedProvider
+                ? "bg-[#00ac69] active:scale-95 cursor-pointer"
+                : "bg-gray-300 cursor-not-allowed"
+            } p-3  text-white rounded-md transition  `}
+          >
+            Send Report
           </div>
         </div>
       </div>

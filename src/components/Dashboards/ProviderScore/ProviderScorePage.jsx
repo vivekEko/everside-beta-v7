@@ -126,14 +126,6 @@ const ProviderScorePage = () => {
           setFlushClientStatus(false);
         }, 500);
       }
-      // setRegionListValue(regionData?.data);
-
-      // if (regionData?.data) {
-      //   setRunClientAPI(true);
-      //   setTimeout(() => {
-      //     setRunClientAPI(false);
-      //   }, 500);
-      // }
     }
   }, [callRegion, usernameLocal]);
 
