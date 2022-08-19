@@ -129,11 +129,6 @@ const ProviderScorePage = () => {
     }
   }, [callRegion, usernameLocal]);
 
-  useEffect(() => {
-    console.log("providerComponentApi from score page");
-    console.log(providerComponentApi);
-  }, [providerComponentApi]);
-
   return (
     <div className=" min-h-[90vh]">
       <ProviderFilter2 />

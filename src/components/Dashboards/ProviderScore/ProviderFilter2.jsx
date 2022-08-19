@@ -25,6 +25,10 @@ import regionDataLengthAtom from "../../../recoil/atoms/regionDataLengthAtom";
 import clinicDataLengthAtom from "../../../recoil/atoms/clinicDataLengthAtom";
 import clientDataLengthAtom from "../../../recoil/atoms/clientDataLengthAtom";
 import FormatColorResetOutlinedIcon from "@mui/icons-material/FormatColorResetOutlined";
+import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
+import { BASE_API_LINK } from "../../../utils/BaseAPILink";
+import axios from "axios";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 
 const ProviderFilter2 = () => {
   // Global variables
@@ -38,7 +42,6 @@ const ProviderFilter2 = () => {
     ProviderDateFilterStatus
   );
 
-  const [callRegion, setCallRegion] = useRecoilState(regionStatusProvider);
   const [finalStartDate, setFinalStartDate] = useRecoilState(
     startDateValueProvider
   );
@@ -69,8 +72,22 @@ const ProviderFilter2 = () => {
   const [clientDataLength, setClientDataLength] =
     useRecoilState(clientDataLengthAtom);
 
+  const [selectedProvider, setSelectedProvider] =
+    useRecoilState(selectedProviderAtom);
+
+  const [providerComponentApi, setProviderComponentApi] = useRecoilState(
+    providerComponentAPIData
+  );
+
+  const [callRegion, setCallRegion] = useRecoilState(regionStatusProvider);
+
   // Local variable
   const [clearFilterVar, setClearFilterVar] = useState(false);
+  const [usernameLocal, setUsernameLocal] = useState();
+  // getting username from session storage
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
 
   const monthList = [
     "Jan",
@@ -98,6 +115,55 @@ const ProviderFilter2 = () => {
       setFlushClientStatus(false);
     }, 500);
   }, [clearFilterVar]);
+
+  function callProviderList() {
+    if (allDataRecievedStatus === true) {
+      if (
+        regionDataLength > 0 ||
+        clinicDataLength > 0 ||
+        clientDataLength > 0
+      ) {
+        setClearFilterVar(!clearFilterVar);
+
+        setCallRegion(true);
+
+        setTimeout(() => {
+          setCallRegion(false);
+        }, 100);
+
+        // setAllDataRecievedStatus(false);
+
+        // const formdata = new FormData();
+        // formdata.append("username", usernameLocal);
+        // const ProviderSelectCall = axios
+        //   .post(
+        //     BASE_API_LINK +
+        //       "filterDateProvider?start_month=" +
+        //       finalStartMonth +
+        //       "&start_year=" +
+        //       finalStartDate +
+        //       "&end_month=" +
+        //       finalEndMonth +
+        //       "&end_year=" +
+        //       finalEndDate,
+        //     formdata,
+        //     {
+        //       headers: {
+        //         authorization: sessionStorage.getItem("token"),
+        //         Accept: "application/json",
+        //       },
+        //     }
+        //   )
+        //   .then((res) => {
+        //     setProviderComponentApi(res?.data);
+
+        //     console.log(res?.data);
+
+        //     setAllDataRecievedStatus(true);
+        //   });
+      }
+    }
+  }
 
   return (
     <div
@@ -174,17 +240,19 @@ const ProviderFilter2 = () => {
               ? "  cursor-pointer active:scale-95"
               : "opacity-50 cursor-not-allowed "
           }  bg-green-50 p-2 rounded-lg text-[10px] sm:text-[12px] text-[#000C08] border text-opacity-70  transition-all flex justify-center items-center gap-2`}
-          onClick={() => {
-            if (allDataRecievedStatus === true) {
-              if (
-                regionDataLength > 0 ||
-                clinicDataLength > 0 ||
-                clientDataLength > 0
-              ) {
-                setClearFilterVar(!clearFilterVar);
-              }
-            }
-          }}
+          // onClick={() => {
+          //   if (allDataRecievedStatus === true) {
+          //     if (
+          //       regionDataLength > 0 ||
+          //       clinicDataLength > 0 ||
+          //       clientDataLength > 0
+          //     ) {
+          //       setClearFilterVar(!clearFilterVar);
+          //     }
+          //   }
+          // }}
+
+          onClick={callProviderList}
         >
           <FormatColorResetOutlinedIcon
             fontSize="small"

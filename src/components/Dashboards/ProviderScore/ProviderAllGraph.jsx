@@ -241,8 +241,8 @@ const ProviderAllGraph = () => {
                   axisLine={false}
                   tickLine={false}
                   fontSize={12}
-                  domain={["dataMin - 0.1", "dataMax + 0.0005"]}
-                  tickFormatter={(number) => `${number.toFixed(0)}`}
+                  // domain={["dataMin - 0.5", "dataMax"]}
+                  tickFormatter={(number) => `${number.toFixed(1)}`}
                   margin={{ right: 20 }}
                 />
                 <Tooltip cursor={false} content={<CustomTooltip />} />

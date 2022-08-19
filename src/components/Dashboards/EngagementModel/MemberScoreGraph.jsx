@@ -143,6 +143,12 @@ const MemberScoreGraph = () => {
                 dataKey="member_score"
                 stroke="transparent "
                 dot={false}
+                activeDot={{
+                  fill: "white",
+                  stroke: "#00ac69",
+                  strokeWidth: 2,
+                  r: 4,
+                }}
                 fill="url(#npsGradient)"
               />
             </AreaChart>

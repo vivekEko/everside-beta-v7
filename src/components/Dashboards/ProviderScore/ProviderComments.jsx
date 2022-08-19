@@ -29,6 +29,11 @@ import newRegionGlobalValue from "../../../recoil/atoms/newRegionGlobalValue";
 import ClinicValue from "../../../recoil/atoms/ClinicValue";
 import clientValue from "../../../recoil/atoms/clientValue";
 import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
+import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
+import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
+import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvider";
+import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
+import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
 
 const ProviderComments = () => {
   const [inputData, setInputData] = useState("");
@@ -55,10 +60,16 @@ const ProviderComments = () => {
 
   const [usernameLocal, setUsernameLocal] = useState();
 
-  const [finalStartDate, setFinalStartDate] = useRecoilState(startDateValue);
-  const [finalStartMonth, setFinalStartMonth] = useRecoilState(startMonthValue);
-  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValue);
-  const [finalEndMonth, setFinalEndMonth] = useRecoilState(endMonthValue);
+  const [finalStartDate, setFinalStartDate] = useRecoilState(
+    startDateValueProvider
+  );
+  const [finalStartMonth, setFinalStartMonth] = useRecoilState(
+    startMonthValueProvider
+  );
+  const [finalEndDate, setFinalEndDate] = useRecoilState(endDateValueProvider);
+  const [finalEndMonth, setFinalEndMonth] = useRecoilState(
+    endMonthValueProvider
+  );
   const [selectedClinicValue, setSelectedClinicValue] =
     useRecoilState(ClinicValue);
   const [newRegionGlobal, setNewRegionGlobal] =
@@ -69,6 +80,9 @@ const ProviderComments = () => {
   const [providerComponentApi, setProviderComponentApi] = useRecoilState(
     providerComponentAPIData
   );
+
+  const [selectedProvider, setSelectedProvider] =
+    useRecoilState(selectedProviderAtom);
 
   useEffect(() => {
     setUsernameLocal(sessionStorage?.getItem("username"));
@@ -157,7 +171,7 @@ const ProviderComments = () => {
         <div>
           <div className=" pt-2  flex justify-between items-end mb-2">
             <h1 className=" text-left font-bold  flex-1 px-2 opacity-80 text-[#000C08]  text-lg">
-              Comments{" "}
+              Comments
               <span
                 className={` ${
                   inputData ? " " : " hidden"
@@ -192,10 +206,10 @@ const ProviderComments = () => {
                 />
               </div>
 
-              {/* <a
+              <a
                 href={
                   BASE_API_LINK +
-                  "totalCommentsDownload?" +
+                  "providerCommentDownload?" +
                   "username=" +
                   usernameLocal +
                   "&start_year=" +
@@ -209,19 +223,15 @@ const ProviderComments = () => {
                   "&" +
                   "end_month=" +
                   finalEndMonth +
-                  "&region=" +
-                  newRegionGlobal +
-                  "&clinic=" +
-                  selectedClinicValue +
-                  "&client=" +
-                  selectedClientValue
+                  "&provider=" +
+                  selectedProvider
                 }
               >
                 <FileDownloadOutlinedIcon
                   fontSize="small"
                   className="cursor-pointer text-gray-400"
                 />
-              </a> */}
+              </a>
             </div>
           </div>
           <div className=" h-[350px]  ">

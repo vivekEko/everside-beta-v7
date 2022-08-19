@@ -49,6 +49,11 @@ const SelectProvider = () => {
   const [usernameLocal, setUsernameLocal] = useState();
   const [sendEmail, setSendEmail] = useState(0);
 
+  // getting username from session storage
+  useEffect(() => {
+    setUsernameLocal(sessionStorage?.getItem("username"));
+  }, [sessionStorage?.getItem("username")]);
+
   //   Search bar input field
   const handleInput = (e) => {
     setInputData(e.target.value);
@@ -76,7 +81,9 @@ const SelectProvider = () => {
 
       // adding username in form data
       const formdata = new FormData();
-      formdata.append("username", usernameLocal);
+      formdata.append("username", sessionStorage?.getItem("username"));
+
+      console.log(sessionStorage?.getItem("username"), "usernameLocal");
       const ProviderSelectCall = axios
         .post(
           BASE_API_LINK +
@@ -107,42 +114,42 @@ const SelectProvider = () => {
     }
   }, [selectedProvider]);
 
-  useEffect(() => {
-    if (selectedProvider) {
-      // setAllDataRecievedStatus(false);
+  // useEffect(() => {
+  //   if (selectedProvider) {
+  //     // setAllDataRecievedStatus(false);
 
-      // adding username in form data
-      const formdata = new FormData();
-      formdata.append("username", usernameLocal);
-      const ProviderEmailcall = axios
-        .post(
-          BASE_API_LINK +
-            "providerEmail?start_month=" +
-            finalStartMonth +
-            "&start_year=" +
-            finalStartDate +
-            "&end_month=" +
-            finalEndMonth +
-            "&end_year=" +
-            finalEndDate +
-            "&provider=" +
-            selectedProvider,
-          formdata,
-          {
-            headers: {
-              authorization: sessionStorage.getItem("token"),
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          console.log("provider email api res:");
-          console.log(res?.data);
-          // setProviderComponentApi(res?.data);
-          // setAllDataRecievedStatus(true);
-        });
-    }
-  }, [sendEmail]);
+  //     // adding username in form data
+  //     const formdata = new FormData();
+  //     formdata.append("username", usernameLocal);
+  //     const ProviderEmailcall = axios
+  //       .post(
+  //         BASE_API_LINK +
+  //           "providerEmail?start_month=" +
+  //           finalStartMonth +
+  //           "&start_year=" +
+  //           finalStartDate +
+  //           "&end_month=" +
+  //           finalEndMonth +
+  //           "&end_year=" +
+  //           finalEndDate +
+  //           "&provider=" +
+  //           selectedProvider,
+  //         formdata,
+  //         {
+  //           headers: {
+  //             authorization: sessionStorage.getItem("token"),
+  //             Accept: "application/json",
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         console.log("provider email api res:");
+  //         console.log(res?.data);
+  //         // setProviderComponentApi(res?.data);
+  //         // setAllDataRecievedStatus(true);
+  //       });
+  //   }
+  // }, [sendEmail]);
 
   return (
     <div className=" mb-2">
@@ -268,7 +275,7 @@ overflow-y-scroll"
           </div>
         </div>
 
-        <div className="">
+        <div className="hidden">
           <div
             onClick={() => setSendEmail(!sendEmail)}
             className={` ${
