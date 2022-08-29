@@ -36,6 +36,7 @@ const ProviderAllGraph = () => {
 
   const [memberEngagement, setMemberEngagement] = useState(true);
   const [visitReason, setVisitReason] = useState(false);
+  const [providerScore, setProviderScore] = useState(false);
 
   const npsGraphNames = [
     {
@@ -45,6 +46,10 @@ const ProviderAllGraph = () => {
     {
       id: 2,
       name: "Visit Reason",
+    },
+    {
+      id: 3,
+      name: "Provider Score",
     },
     // {
     //   id: 3,
@@ -142,18 +147,33 @@ const ProviderAllGraph = () => {
                       className={` flex justify-end flex-row-reverse items-center gap-5 p-2 border-b-2 border-b-transparent hover:bg-gray-100 text-[12px] opacity-70 cursor-pointer `}
                       onClick={() => {
                         // new logic
-                        if (visitReason || memberEngagement) {
+                        if (visitReason || memberEngagement || providerScore) {
                           if (data.id === 1) {
-                            if (visitReason && memberEngagement === true) {
+                            if (
+                              (visitReason || providerScore) &&
+                              memberEngagement === true
+                            ) {
                               setMemberEngagement(false);
                             } else {
                               setMemberEngagement(true);
                             }
                           } else if (data.id === 2) {
-                            if (memberEngagement && visitReason === true) {
+                            if (
+                              (memberEngagement || providerScore) &&
+                              visitReason === true
+                            ) {
                               setVisitReason(false);
                             } else {
                               setVisitReason(true);
+                            }
+                          } else if (data.id === 3) {
+                            if (
+                              (memberEngagement || visitReason) &&
+                              providerScore === true
+                            ) {
+                              setProviderScore(false);
+                            } else {
+                              setProviderScore(true);
                             }
                           }
                         }
@@ -173,6 +193,12 @@ const ProviderAllGraph = () => {
                        ${
                          visitReason && data?.id === 2
                            ? "bg-[#AFA2FF]"
+                           : "bg-white"
+                       }
+
+                       ${
+                         providerScore && data?.id === 3
+                           ? "bg-[#7394cb]"
                            : "bg-white"
                        }
                   
@@ -195,6 +221,11 @@ const ProviderAllGraph = () => {
             <div className="flex items-center gap-1">
               <div className="bg-[#AFA2FF] h-[8px] w-[8px] rounded-full"></div>
               <div className="text-[12px] opacity-80">Top Visit Reason</div>
+            </div>
+
+            <div className="flex items-center gap-1">
+              <div className="bg-[#7394cb] h-[8px] w-[8px] rounded-full"></div>
+              <div className="text-[12px] opacity-80">Provider Score</div>
             </div>
           </div>
 
@@ -264,6 +295,16 @@ const ProviderAllGraph = () => {
                     name="Visit Reason"
                     dataKey="reason"
                     fill="#AFA2FF"
+                  />
+                )}
+
+                {providerScore && (
+                  <Bar
+                    barSize={20}
+                    radius={[5, 5, 0, 0]}
+                    name="Provider Score"
+                    dataKey="score"
+                    fill="#7394cb"
                   />
                 )}
               </BarChart>

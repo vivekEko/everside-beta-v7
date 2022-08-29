@@ -19,13 +19,14 @@ import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
 import axios from "axios";
 import { BASE_API_LINK } from "../../../utils/BaseAPILink";
 import selectedClinicProvider from "../../../recoil/atoms/selectedClinicProvider";
-import providersApiData from "../../../recoil/atoms/providersApiData";
 import clientAPIdataProvider from "../../../recoil/atoms/clientAPIdataProvider";
+import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
 
 const ProviderClinic2 = () => {
   // Global variables
-  const [providerAPIDATA, setProviderAPIDATA] =
-    useRecoilState(providersApiData);
+  const [providerAPIDATA, setProviderAPIDATA] = useRecoilState(
+    providersApiDataProviderPage
+  );
   const [allFilterData, setAllFilterData] = useRecoilState(
     AllFilterDataProvider
   );

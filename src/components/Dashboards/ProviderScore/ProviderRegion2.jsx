@@ -19,9 +19,9 @@ import startMonthValueProvider from "../../../recoil/atoms/StartMonthAtomProvide
 import startDateValueProvider from "../../../recoil/atoms/StartDateAtomProvider";
 import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
 import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
-import providersApiData from "../../../recoil/atoms/providersApiData";
 import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
 import clinicProviderAPI from "../../../recoil/atoms/clinicProviderAPI";
+import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
 
 const ProviderRegion2 = () => {
   // Global Variables
@@ -56,8 +56,9 @@ const ProviderRegion2 = () => {
     useRecoilState(flushClinicProvider);
   const [flushClientStatus, setFlushClientStatus] =
     useRecoilState(flushClientProvider);
-  const [providerAPIDATA, setProviderAPIDATA] =
-    useRecoilState(providersApiData);
+  const [providerAPIDATA, setProviderAPIDATA] = useRecoilState(
+    providersApiDataProviderPage
+  );
 
   // Local Variables
   const [regionShowStatus, setRegionShowStatus] = useState(false);

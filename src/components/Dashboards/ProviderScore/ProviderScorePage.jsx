@@ -24,10 +24,11 @@ import flushClinicProvider from "../../../recoil/atoms/flushClinicProvider";
 import flushClientProvider from "../../../recoil/atoms/flushClientProvider";
 import FormatColorResetOutlinedIcon from "@mui/icons-material/FormatColorResetOutlined";
 import SelectProvider from "./SelectProvider";
-import providersApiData from "../../../recoil/atoms/providersApiData";
 import AllFilterDataProvider from "../../../recoil/atoms/AllFilterDataProvider";
 import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
 import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
+import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
+import activeInnerPage from "../../../recoil/atoms/activeInnerPage";
 
 const ProviderScorePage = () => {
   // Global Variables
@@ -63,11 +64,14 @@ const ProviderScorePage = () => {
     useRecoilState(flushClinicProvider);
   const [flushClientStatus, setFlushClientStatus] =
     useRecoilState(flushClientProvider);
-  const [providerAPIDATA, setProviderAPIDATA] =
-    useRecoilState(providersApiData);
+  const [providerAPIDATA, setProviderAPIDATA] = useRecoilState(
+    providersApiDataProviderPage
+  );
   const [providerComponentApi, setProviderComponentApi] = useRecoilState(
     providerComponentAPIData
   );
+
+  const [activePageValue, setActivePageValue] = useRecoilState(activeInnerPage);
 
   const [selectedProvider, setSelectedProvider] =
     useRecoilState(selectedProviderAtom);
@@ -107,15 +111,12 @@ const ProviderScorePage = () => {
       );
 
       if (firstAPIdata) {
-        console.log("firstAPIdata?.data:");
-        console.log(firstAPIdata?.data?.region);
         setAllFilterData(firstAPIdata?.data);
         setProviderAPIDATA(firstAPIdata?.data);
+        setSelectedProvider(firstAPIdata?.data?.provider[0]);
         setRegionGlobal(firstAPIdata?.data?.region);
         setClinicAPIData(firstAPIdata?.data?.clinic);
-
         setClientDataProvider(firstAPIdata?.data?.client);
-
         setAllDataRecievedStatus(true);
         setFlushRegionvalue(true);
         setFlushClinicStatus(true);

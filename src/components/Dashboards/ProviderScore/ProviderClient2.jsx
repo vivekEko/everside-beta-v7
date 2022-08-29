@@ -18,12 +18,13 @@ import endDateValueProvider from "../../../recoil/atoms/EndDateAtomProvider";
 import endMonthValueProvider from "../../../recoil/atoms/EndMonthProvider";
 import axios from "axios";
 import { BASE_API_LINK } from "../../../utils/BaseAPILink";
-import providersApiData from "../../../recoil/atoms/providersApiData";
+import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
 
 const ProviderClient2 = () => {
   // Global variabbles
-  const [providerAPIDATA, setProviderAPIDATA] =
-    useRecoilState(providersApiData);
+  const [providerAPIDATA, setProviderAPIDATA] = useRecoilState(
+    providersApiDataProviderPage
+  );
   const [allFilterData, setAllFilterData] = useRecoilState(
     AllFilterDataProvider
   );

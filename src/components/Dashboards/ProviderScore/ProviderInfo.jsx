@@ -44,10 +44,10 @@ const ProviderInfo = () => {
         <div className="h-full w-full flex flex-col  gap-5 justify-center items-center  ">
           {/* <img src={doctorIcon} alt="doctorIcon" className="w-[25%]" /> */}
           <h1 className="text-3xl  bg-[#e6f5fc] text-[#0094e0] p-5 rounded-full">
-            {(providerComponentApi?.provider_info?.score / 2).toFixed(1)}
+            {(providerComponentApi?.provider_info?.score).toFixed(1)}
           </h1>
 
-          <div className="flex justify-around items-center mb-5">
+          <div className="flex justify-around items-center mb-5 ">
             <div className="relative  w-[30px] h-[30px] mx-2 ">
               <div className="z-[30] absolute top-0 bottom-0 left-0 right-0">
                 <img src={Star} alt="star" className="w-[30px] h-[30px]" />

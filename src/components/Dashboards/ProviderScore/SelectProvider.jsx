@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import providersApiData from "../../../recoil/atoms/providersApiData";
 import { useRecoilState } from "recoil";
 import seachIcon from "../../../assets/img/global-img/searchIcon.svg";
 import { useDetectClickOutside } from "react-detect-click-outside";
@@ -14,14 +13,16 @@ import allDataRecievedProvider from "../../../recoil/atoms/allDataRecievedProvid
 import axios from "axios";
 import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
 import regionStatusProvider from "../../../recoil/atoms/regionStatusProvider";
+import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
 
 const SelectProvider = () => {
   // Global Variables
   const [allDataRecievedStatus, setAllDataRecievedStatus] = useRecoilState(
     allDataRecievedProvider
   );
-  const [providerAPIDATA, setProviderAPIDATA] =
-    useRecoilState(providersApiData);
+  const [providerAPIDATA, setProviderAPIDATA] = useRecoilState(
+    providersApiDataProviderPage
+  );
   const [providerComponentApi, setProviderComponentApi] = useRecoilState(
     providerComponentAPIData
   );
@@ -60,11 +61,7 @@ const SelectProvider = () => {
   };
 
   useEffect(() => {
-    console.log("length from select provider");
-    console.log(providerAPIDATA?.provider?.length);
-  }, [providerAPIDATA?.provider?.length]);
-
-  useEffect(() => {
+    console.log("selected hai yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
     console.log(selectedProvider);
   }, [selectedProvider]);
 
@@ -154,9 +151,8 @@ const SelectProvider = () => {
   return (
     <div className=" mb-2">
       <div className="flex  text-gray-500 justify-between   text-sm relative ">
-        <div className="">
+        <div ref={ref} className="">
           <div
-            ref={ref}
             onClick={() => setProviderListStatus(!providerListStatus)}
             className=" w-fit border cursor-pointer rounded-md p-2 px-3 space-x-2 flex justify-between items-center"
           >

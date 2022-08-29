@@ -24,7 +24,9 @@ const Providers3 = () => {
   useEffect(() => {
     setApiData(providerApiAtom?.data);
 
-    console.log("providerApiAtom?.data:");
+    console.log(
+      "providerApiAtom?.data: 2222222222222222222222222222222222222222222222222222222"
+    );
     console.log(providerApiAtom?.data);
   }, [providerApiAtom]);
 
@@ -144,6 +146,8 @@ const Providers3 = () => {
                     Top Negative Topic
                   </th>
                   <th className="font-normal text-left  px-1">Survey Count</th>
+                  <th className=" font-normal text-left px-1">NPS</th>
+
                   <th className=" font-normal text-left px-1">NPS</th>
                 </tr>
               </thead>
