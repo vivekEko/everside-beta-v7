@@ -146,7 +146,7 @@ const Providers3 = () => {
                     Top Negative Topic
                   </th>
                   <th className="font-normal text-left  px-1">Survey Count</th>
-                  <th className=" font-normal text-left px-1">NPS</th>
+                  <th className=" font-normal text-left px-1">Score</th>
 
                   <th className=" font-normal text-left px-1">NPS</th>
                 </tr>
@@ -191,6 +191,11 @@ const Providers3 = () => {
                       <td className="w-[5%] px-1">
                         <div className="text-sm text-gray-500  my-auto">
                           {data?.count}
+                        </div>
+                      </td>
+                      <td className="w-[5%] px-1">
+                        <div className="text-sm text-gray-500  my-auto">
+                          {data?.score}
                         </div>
                       </td>
                       <td className="w-[24%] px-1">
