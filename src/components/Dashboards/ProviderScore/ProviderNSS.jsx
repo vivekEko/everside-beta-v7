@@ -1,20 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
-import CountUp from "react-countup";
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
-import PositiveIcon from "../../../../assets/img/NPS Dashboard/Positive.svg";
-import NegativeIcon from "../../../../assets/img/NPS Dashboard/Negative.svg";
-import ExtremeIcon from "../../../../assets/img/NPS Dashboard/Extreme.svg";
-import NeutralIcon from "../../../../assets/img/NPS Dashboard/Neutral.svg";
-// import MockApiNSSData from "../../../../mock_API/NPS/NPS Main Dashboard/NSSCard.json";
-import { useRecoilState } from "recoil";
-import PuffLoader from "react-spinners/PuffLoader";
-import nssAPIdata from "../../../../recoil/atoms/nssAPIdata";
+import React from "react";
+import { PuffLoader } from "react-spinners";
+import ProviderNSSAtom from "../../../recoil/atoms/ProviderNSSAtom";
+
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { exportComponentAsPNG } from "react-component-export-image";
+import { Cell, Pie, PieChart, ResponsiveContainer } from "recharts";
+import { Tooltip } from "react-leaflet";
+import { useRecoilState } from "recoil";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
+import CountUp from "react-countup";
 
-const NSSCard = () => {
-  const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
+import PositiveIcon from "../../../assets/img/NPS Dashboard/Positive.svg";
+import NegativeIcon from "../../../assets/img/NPS Dashboard/Negative.svg";
+import ExtremeIcon from "../../../assets/img/NPS Dashboard/Extreme.svg";
+import NeutralIcon from "../../../assets/img/NPS Dashboard/Neutral.svg";
+import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPIData";
+
+const ProviderNSS = () => {
+  const [nssApiData, setNssApiData] = useRecoilState(providerComponentAPIData);
   const [apiData, setApiData] = useState();
 
   const [showInfoNss, setShowInfoNss] = useState(false);
@@ -31,7 +37,7 @@ const NSSCard = () => {
 
   return (
     <div
-      className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white "
+      className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white min-h-[245px]"
       ref={NPSComponent}
     >
       {!apiData?.nss && (
@@ -103,7 +109,7 @@ const NSSCard = () => {
               </div>
             </div>
           </div>
-          <div className="flex  gap-3 md:gap-5 justify-between xl:gap-2">
+          <div className="flex  gap-3 md:gap-5 justify-center items-center  h-[170px]  xl:gap-2 ">
             {/* <div className="flex justify-start items-center gap-3 md:gap-5"> */}
 
             <div className="grid grid-cols-4 place-items-center gap-8 ">
@@ -181,7 +187,7 @@ const NSSCard = () => {
             </div>
 
             {/* Graph */}
-            <div className="xl:ml-1 relative">
+            <div className="xl:ml-1 relative hidden">
               <div className="absolute  top-[50%]  left-[50%] translate-x-[-50%] translate-y-[-50%]">
                 <div className="flex flex-col justify-center items-center">
                   <h1 className="text-[10px] opacity-40">Sentiment</h1>
@@ -195,7 +201,7 @@ const NSSCard = () => {
                   </p>
                 </div>
               </div>
-              <div className=" w-[80px] md:w-[110px] ">
+              <div className=" w-[80px] md:w-[110px]  ">
                 <ResponsiveContainer height={110} width="100%">
                   <PieChart>
                     <Tooltip
@@ -233,10 +239,10 @@ const NSSCard = () => {
   );
 };
 
-export default NSSCard;
+export default ProviderNSS;
 
 function CustomTooltip({ active, payload, label }) {
-  const [nssApiData, setNssApiData] = useRecoilState(nssAPIdata);
+  const [nssApiData, setNssApiData] = useRecoilState(ProviderNSSAtom);
   const [apiData, setApiData] = useState();
 
   useEffect(() => {

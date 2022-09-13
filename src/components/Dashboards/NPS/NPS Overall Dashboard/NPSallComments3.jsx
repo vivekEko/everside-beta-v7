@@ -178,10 +178,14 @@ const NPSallComments3 = () => {
 
   useEffect(() => {
     setTotalFilteredComments(apiData?.length);
+    console.log(
+      "apiData''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''"
+    );
+    console.log(apiData);
   }, [apiData]);
 
   return (
-    <div className="w-[100%] 2xl:w-[50%]  border  p-2 h-[400px] rounded-lg bg-white">
+    <div className="w-[100%]   border  p-2 h-[400px] rounded-lg bg-white">
       {!apiData && (
         <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
           <PuffLoader color="#00ac69" size={50} width={100} />
@@ -268,7 +272,7 @@ const NPSallComments3 = () => {
               <div className="h-[350px] overflow-y-scroll ">
                 <div className="text-[12px] p-3 pb-0 w-full  ">
                   <div className=" sticky bg-white top-0 z-[5] ">
-                    <div className=" grid grid-cols-[60px_minmax(150px,1fr)_minmax(100px,120px)_minmax(100px,120px)_minmax(100px,120px)_minmax(80px,100px)] gap-1   min-w-[600px]  text-[12px] text-gray-500 uppercase font-normal bg-white border-b-2 ">
+                    <div className=" grid grid-cols-[60px_minmax(150px,1fr)_minmax(100px,120px)_minmax(100px,120px)_minmax(100px,120px)_minmax(80px,100px)_minmax(80px,100px)] gap-1   min-w-[600px]  text-[12px] text-gray-500 uppercase font-normal bg-white border-b-2 ">
                       <div
                         onClick={() => setAscSort(!ascSort)}
                         className=" text-gray-400  capitalize  font-normal cursor-pointer hover:text-gray-600 transition  "
@@ -292,7 +296,9 @@ const NPSallComments3 = () => {
                       <div className=" text-gray-400   capitalize font-normal  ">
                         Topic
                       </div>
-
+                      <div className=" text-gray-400   capitalize font-normal  ">
+                        Provider
+                      </div>
                       <div className=" text-gray-400   capitalize font-normal  ">
                         Client
                       </div>
@@ -428,7 +434,7 @@ const NPSallComments3 = () => {
                         return (
                           <div key={data?.id} className="w-full ">
                             {index <= totalViewedComments && (
-                              <div className=" grid  grid-cols-[60px_minmax(150px,1fr)_minmax(100px,120px)_minmax(100px,120px)_minmax(100px,120px)_minmax(80px,100px)] gap-1 items-center  border-b py-2 min-h-[60px] min-w-[600px]">
+                              <div className=" grid  grid-cols-[60px_minmax(150px,1fr)_minmax(100px,120px)_minmax(100px,120px)_minmax(100px,120px)_minmax(80px,100px)_minmax(80px,100px)] gap-1 items-center  border-b py-2 min-h-[60px] min-w-[600px]">
                                 <div className="  text-gray-400  capitalize  font-normal text-[12px]  ">
                                   {data?.timestamp}
                                 </div>
@@ -448,6 +454,9 @@ const NPSallComments3 = () => {
                                   </div>
                                 </div>
 
+                                <div className=" text-gray-400    font-normal ">
+                                  {data?.topic}
+                                </div>
                                 <div className=" text-gray-400    font-normal ">
                                   {data?.topic}
                                 </div>

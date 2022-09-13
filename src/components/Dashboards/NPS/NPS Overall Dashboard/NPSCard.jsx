@@ -25,6 +25,10 @@ const NPSCard = () => {
 
   useEffect(() => {
     setApiData(npsApiData);
+    console.log(
+      "yaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    );
+    console.log(npsApiData);
   }, [npsApiData]);
 
   const NPSComponent = useRef();

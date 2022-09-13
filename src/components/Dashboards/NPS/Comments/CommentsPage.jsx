@@ -17,7 +17,7 @@ const TotalComments = React.lazy(() => import("./TotalComments"));
 const CommentsPage = () => {
   return (
     <div>
-      <section className="my-[10px] flex flex-col-reverse 2xl:flex-row justify-center gap-[10px]">
+      <section className="my-[10px] flex flex-col-reverse  justify-center gap-[10px]">
         <TotalComments4 />
 
         <div className=" w-full">

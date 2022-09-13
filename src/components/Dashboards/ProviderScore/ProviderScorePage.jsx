@@ -29,6 +29,11 @@ import providerComponentAPIData from "../../../recoil/atoms/providerComponentAPI
 import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
 import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
 import activeInnerPage from "../../../recoil/atoms/activeInnerPage";
+import NPSCard from "../NPS/NPS Overall Dashboard/NPSCard";
+import NSSCard from "../NPS/NPS Overall Dashboard/NSSCard";
+import ProviderTotalCard2 from "./ProviderTotalCard2";
+import ProviderNSS from "./ProviderNSS";
+import ProviderInfo2 from "./ProviderInfo2";
 
 const ProviderScorePage = () => {
   // Global Variables
@@ -138,19 +143,38 @@ const ProviderScorePage = () => {
         {providerComponentApi ? (
           <div>
             {providerComponentApi?.Message === "TRUE" ? (
-              <div>
-                <div className="flex items-center gap-2 flex-col lg:flex-row  ">
+              <div className="mt-5">
+                {/* <div className="flex items-center gap-2 flex-col lg:flex-row  ">
                   <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
                     <ProviderInfo />
                     <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
                       <ProviderNPS />
                     </div>
                   </div>
-                  <ProviderTotalCard />
+                  <ProviderTotalCard2 />
                 </div>
                 <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
-                  <ProviderAllGraph />
-                  <ProviderComments />
+                  <div className="flex-[0.7]">
+                    <ProviderComments />
+                  </div>
+                  <div className=" flex-[0.3] space-y-5 w-full rounded-md">
+                    <NPSCard />
+                    <NSSCard />
+                  </div>
+                </div> */}
+
+                <div>
+                  <ProviderInfo2 />
+                </div>
+
+                <div className="mt-5 flex flex-col xl:flex-row gap-5">
+                  <div className="flex-[0.7]">
+                    <ProviderComments />
+                  </div>
+                  <div className="flex-[0.3] gap-5 flex xl:flex-col">
+                    <ProviderNPS />
+                    <ProviderNSS />
+                  </div>
                 </div>
               </div>
             ) : (

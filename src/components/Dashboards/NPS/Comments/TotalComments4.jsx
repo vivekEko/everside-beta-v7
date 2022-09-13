@@ -263,7 +263,7 @@ const TotalComments4 = () => {
               <div>
                 <div className="text-[12px] p-3 pb-0 w-full  ">
                   <div className="border-b-gray-100 border-b-2 sticky bg-white top-0 z-[5] ">
-                    <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_100px_100px_80px] gap-2   min-w-[500px]  text-[12px] text-gray-500 uppercase font-normal bg-white ">
+                    <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_100px_100px_80px_80px] gap-2   min-w-[500px]  text-[12px] text-gray-500 uppercase font-normal bg-white ">
                       <div
                         onClick={() => setAscSort(!ascSort)}
                         className=" text-gray-400  capitalize  font-normal cursor-pointer hover:text-gray-600 transition  "
@@ -286,6 +286,9 @@ const TotalComments4 = () => {
                       </div>
                       <div className=" text-gray-400   capitalize font-normal  ">
                         Topic
+                      </div>
+                      <div className=" text-gray-400   capitalize font-normal  ">
+                        Provider
                       </div>
                       <div className=" text-gray-400   capitalize font-normal  ">
                         Client
@@ -422,7 +425,7 @@ const TotalComments4 = () => {
                           <div key={index} className="w-full ">
                             {index <= totalViewedComments && (
                               <>
-                                <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_100px_100px_80px] gap-2 items-center  border-b py-2 min-h-[60px] min-w-[500px]">
+                                <div className=" grid grid-cols-[60px_minmax(200px,1fr)_100px_100px_100px_80px_80px] gap-2 items-center  border-b py-2 min-h-[60px] min-w-[500px]">
                                   <div className="  text-gray-400  capitalize  font-normal text-[12px]  ">
                                     {data?.timestamp}
                                   </div>
@@ -442,6 +445,9 @@ const TotalComments4 = () => {
                                   </div>
                                   <div className=" text-gray-400    font-normal ">
                                     {data?.topic}
+                                  </div>
+                                  <div className=" text-gray-400    font-normal ">
+                                    {data?.provider}
                                   </div>
                                   <div className=" text-gray-400    font-normal ">
                                     {data?.client}

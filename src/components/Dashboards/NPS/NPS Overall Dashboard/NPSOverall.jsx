@@ -37,7 +37,7 @@ const NPSOverall = () => {
         </div>
         <TotalCard />
       </section>
-      <section className="my-[8px]  flex flex-col 2xl:flex-row  justify-center gap-2">
+      <section className="my-[8px]  flex flex-col  justify-center gap-2">
         <NPSallComments3 />
         <AlertComments2 />
       </section>

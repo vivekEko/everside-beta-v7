@@ -234,13 +234,13 @@ const ProviderComments = () => {
               </a>
             </div>
           </div>
-          <div className=" h-[350px]  ">
+          <div className=" h-[450px]  ">
             {apiData?.length === 0 ? (
               <div className="h-full w-full flex justify-center items-center text-gray-400">
                 No Comments
               </div>
             ) : (
-              <div className="h-[350px] overflow-y-scroll ">
+              <div className="h-[450px] overflow-y-scroll ">
                 <div className="text-[12px] p-3 pb-0 w-full  ">
                   <div className=" sticky bg-white top-0 z-[5] ">
                     <div className=" grid grid-cols-[60px_minmax(150px,1fr)_minmax(100px,120px)_minmax(100px,120px)_minmax(100px,120px)_minmax(80px,100px)] gap-1   min-w-[600px]  text-[12px] text-gray-500 uppercase font-normal bg-white border-b-2 ">

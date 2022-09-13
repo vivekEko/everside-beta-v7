@@ -103,7 +103,7 @@ const SelectProvider = () => {
           }
         )
         .then((res) => {
-          console.log("provider submit api res:");
+          console.log("provider submit api res.............................:");
           console.log(res?.data);
           setProviderComponentApi(res?.data);
           setAllDataRecievedStatus(true);
