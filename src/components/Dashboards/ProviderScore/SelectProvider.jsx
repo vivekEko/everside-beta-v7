@@ -165,7 +165,7 @@ const SelectProvider = () => {
           <div
             className={`${
               providerListStatus ? "block" : "hidden"
-            } absolute left-0 top-[120%] transition-all   text-xl  w-[220px] rounded-md  shadow-2xl z-50 bg-white  border `}
+            } absolute left-0 top-[120%] transition-all   text-xl  w-[220px] rounded-md  shadow-2xl bg-white  border  `}
           >
             {/* search */}
             <div className=" bg-white h-[30px] sticky top-0 z-[99]  rounded-md ">
@@ -182,92 +182,89 @@ const SelectProvider = () => {
                 />
               </div>
             </div>
-
-            <div
-              className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
+            {providerAPIDATA?.provider?.length ? (
+              <div
+                className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
 overflow-y-scroll"
-            >
-              {providerAPIDATA?.provider
-                ?.filter((filtered_value) => {
-                  if (inputData === "") {
-                    return filtered_value;
-                  } else if (
-                    filtered_value
-                      ?.toLowerCase()
-                      ?.includes(inputData.toLowerCase())
-                  ) {
-                    return filtered_value;
-                  }
-                })
-                ?.map((data, index) => {
-                  return (
-                    <div
-                      key={index + 1}
-                      className="flex justify-start items-center gap-2 mb-2 px-2"
-                    >
-                      <input
-                        className=""
-                        type="radio"
-                        name={data}
-                        value={data}
-                        checked={selectedProvider === data ? true : false}
-                        onChange={() => {
-                          if (selectedProvider === data) {
-                            setSelectedProvider(null);
-                          } else {
-                            setSelectedProvider(data);
-                          }
-                        }}
-                        //   onChange={() => {
-                        //     if (providerLocal?.includes(data)) {
-                        //       console.log(data + " already exits");
-                        //       setProviderLocal((providerLocal) =>
-                        //         arrayRemove(providerLocal, data)
-                        //       );
-                        //     } else {
-                        //       setProviderLocal((providerLocal) => [
-                        //         ...providerLocal,
-                        //         data,
-                        //       ]);
-                        //     }
-                        //   }}
-                      />
-
-                      <label
-                        htmlFor={data}
-                        className="text-sm ml-5"
-                        //   onClick={() => {
-                        //     {
-                        //       if (providerLocal?.includes(data)) {
-                        //         console.log(data + " already exits");
-                        //         setProviderLocal((providerLocal) =>
-                        //           arrayRemove(providerLocal, data)
-                        //         );
-                        //       } else {
-                        //         setProviderLocal((providerLocal) => [
-                        //           ...providerLocal,
-                        //           data,
-                        //         ]);
-                        //       }
-                        //     }
-                        //   }}
-
-                        onClick={() => {
-                          if (selectedProvider === data) {
-                            setSelectedProvider(null);
-                          } else {
-                            setSelectedProvider(data);
-                          }
-                        }}
+              >
+                {providerAPIDATA?.provider
+                  ?.filter((filtered_value) => {
+                    if (inputData === "") {
+                      return filtered_value;
+                    } else if (
+                      filtered_value
+                        ?.toLowerCase()
+                        ?.includes(inputData.toLowerCase())
+                    ) {
+                      return filtered_value;
+                    }
+                  })
+                  ?.map((data, index) => {
+                    return (
+                      <div
+                        key={index + 1}
+                        className="flex justify-start items-center gap-2 mb-2 px-2"
                       >
-                        <p className="text-ellipsis overflow-hidden ... ">
-                          {data}
-                        </p>
-                      </label>
-                    </div>
-                  );
-                })}
-            </div>
+                        <input
+                          className=""
+                          type="radio"
+                          name={data}
+                          value={data}
+                          checked={selectedProvider === data ? true : false}
+                          onChange={() => {
+                            if (selectedProvider === data) {
+                              setSelectedProvider(null);
+                            } else {
+                              setSelectedProvider(data);
+                            }
+                          }}
+                        />
+
+                        <label
+                          htmlFor={data}
+                          className="text-sm ml-5"
+                          //   onClick={() => {
+                          //     {
+                          //       if (providerLocal?.includes(data)) {
+                          //         console.log(data + " already exits");
+                          //         setProviderLocal((providerLocal) =>
+                          //           arrayRemove(providerLocal, data)
+                          //         );
+                          //       } else {
+                          //         setProviderLocal((providerLocal) => [
+                          //           ...providerLocal,
+                          //           data,
+                          //         ]);
+                          //       }
+                          //     }
+                          //   }}
+
+                          onClick={() => {
+                            if (selectedProvider === data) {
+                              setSelectedProvider(null);
+                            } else {
+                              setSelectedProvider(data);
+                            }
+                          }}
+                        >
+                          <p className="text-ellipsis overflow-hidden ... ">
+                            {data}
+                          </p>
+                        </label>
+                      </div>
+                    );
+                  })}
+              </div>
+            ) : (
+              <div
+                className="mt-2 z-[50]  min-h-[150px] max-h-[250px]
+flex justify-center items-center"
+              >
+                <h1 className="text-gray-400 text-center text-sm">
+                  No Providers
+                </h1>
+              </div>
+            )}
           </div>
         </div>
 

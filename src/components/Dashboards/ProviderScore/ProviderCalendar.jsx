@@ -70,9 +70,9 @@ const ProviderCalendar = () => {
   const [allDataRecievedStatus, setAllDataRecievedStatus] =
     useRecoilState(allDataRecieved);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
-  const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState("Jun");
-  const [endMonthNumVal, setEndMonthNumVal] = useState(6);
+  const [startMonthNumVal, setStartMonthNumVal] = useState(1);
+  const [endMonthVal, setEndMonthVal] = useState("Aug");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(8);
 
   const [datePickerStatus, setDatePickerStatus] = useRecoilState(
     ProviderDateFilterStatus

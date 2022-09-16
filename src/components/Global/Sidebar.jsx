@@ -59,7 +59,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-[calc(100vh-50px)]  mt-[50px] fixed inset-y-0 left-0 z-30  overflow-y-scroll overflow-x-hidden transition-all duration-[400ms] ease-out transform    scrollbar-hide  bg-white border-r-2 border-b-[#EBECEB] border-[1px] w-[165px] ${
+      className={`h-[calc(100vh-50px)]  mt-[50px] fixed inset-y-0 left-0 z-[500]  overflow-y-scroll overflow-x-hidden transition-all duration-[400ms] ease-out transform    scrollbar-hide  bg-white border-r-2 border-b-[#EBECEB] border-[1px] w-[165px] ${
         hamburgerStatus
           ? "ease-in   "
           : "ease-out  -translate-x-[100%] lg:translate-x-0 "

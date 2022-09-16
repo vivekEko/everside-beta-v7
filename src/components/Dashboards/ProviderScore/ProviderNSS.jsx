@@ -37,7 +37,7 @@ const ProviderNSS = () => {
 
   return (
     <div
-      className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white min-h-[245px]"
+      className="p-2 md:py-5 2xl:px-5 w-full border  rounded-lg bg-white "
       ref={NPSComponent}
     >
       {!apiData?.nss && (

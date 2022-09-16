@@ -168,7 +168,7 @@ const ProviderRegion2 = () => {
 
   return (
     <div
-      className="relative w-full z-[150] "
+      className="relative w-full z-[10] "
       ref={ref}
       onClick={() => setDatePickerStatus(!setDatePickerStatus)}
     >
@@ -178,7 +178,7 @@ const ProviderRegion2 = () => {
             allDataRecievedStatus
               ? "active:scale-95"
               : " opacity-50 cursor-not-allowed"
-          } cursor-pointer  p-1 bg-green-50  transition-all px-2 rounded-lg flex justify-center items-center  border relative flex-1 `}
+          } cursor-pointer  p-1 bg-green-50  transition-all px-2 rounded-lg flex justify-center items-center  border relative flex-1  `}
           onClick={() => {
             if (allDataRecievedStatus) {
               setRegionShowStatus(!regionShowStatus);

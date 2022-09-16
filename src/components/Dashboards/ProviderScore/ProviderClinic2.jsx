@@ -144,7 +144,7 @@ const ProviderClinic2 = () => {
 
   return (
     <div
-      className="relative z-[150] "
+      className="relative z-[10]"
       ref={ref}
       onClick={() => setDatePickerStatus(!setDatePickerStatus)}
     >
@@ -153,7 +153,7 @@ const ProviderClinic2 = () => {
           allDataRecievedStatus
             ? "active:scale-95"
             : " opacity-50 cursor-not-allowed"
-        } cursor-pointer  p-1 bg-green-50 bg-opacity-80 transition-all px-2 rounded-lg flex justify-center items-center  border relative`}
+        } cursor-pointer  p-1 bg-green-50 bg-opacity-80 transition-all px-2 rounded-lg flex justify-center items-center  border relative  `}
         onClick={() => {
           if (allDataRecievedStatus) {
             setClinicStatusoLocal(!clinicStatusLocal);

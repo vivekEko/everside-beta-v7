@@ -57,15 +57,22 @@ const ProviderInfo2 = () => {
       </div>
 
       {/* Provider's info */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-9 gap-10 xl:gap-5  p-5 ">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-8 gap-10 xl:gap-5  p-5 ">
         {/* info */}
         <div className=" text-center  ">
           <h1 className="text-gray-500 text-sm">
-            <span>{MonthList[finalStartMonth]}, </span>
+            <span>{MonthList[finalStartMonth - 1]}, </span>
             <span>{finalStartDate}</span>
-            <span className="mx-1">-</span>
-            <span>{MonthList[finalEndMonth]}, </span>
-            <span>{finalEndDate}</span>
+            {MonthList[finalStartMonth - 1] != MonthList[finalEndMonth - 1] &&
+            finalStartDate != finalEndDate ? (
+              <span>
+                <span className="mx-1">-</span>
+                <span>{MonthList[finalEndMonth - 1]}, </span>
+                <span>{finalEndDate}</span>
+              </span>
+            ) : (
+              <span></span>
+            )}
           </h1>
 
           <h1 className="text-2xl mt-3">
@@ -74,13 +81,13 @@ const ProviderInfo2 = () => {
         </div>
 
         {/* provider_score */}
-        <div className="text-center">
+        {/* <div className="text-center">
           <h1 className="text-gray-500 text-sm">Provider Score</h1>
           <h1 className="text-2xl mt-4">
             <span>{providerComponentApi?.provider_info?.score}</span>
             <span className="text-xs text-gray-500 ">/10</span>
           </h1>
-        </div>
+        </div> */}
 
         {/*NPS Score */}
         <div className="text-center">
@@ -109,7 +116,7 @@ const ProviderInfo2 = () => {
 
         {/* Surveys */}
         <div className="text-center">
-          <h1 className="text-gray-500 text-sm">NPS Response</h1>
+          <h1 className="text-gray-500 text-sm">NPS Responses</h1>
           <h1 className="text-2xl mt-4">
             <span>{providerComponentApi?.provider_info?.nps_response}</span>
           </h1>

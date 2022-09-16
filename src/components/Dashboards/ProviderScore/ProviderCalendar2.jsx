@@ -89,8 +89,8 @@ const ProviderCalendar2 = () => {
   const [val, setVal] = useState([finalStartDate, finalEndDate]);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState("Jun");
-  const [endMonthNumVal, setEndMonthNumVal] = useState(6);
+  const [endMonthVal, setEndMonthVal] = useState("Aug");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(8);
   const [usernameLocal, setUsernameLocal] = useState();
 
   useEffect(() => {

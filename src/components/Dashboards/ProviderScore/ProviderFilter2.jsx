@@ -171,7 +171,7 @@ const ProviderFilter2 = () => {
         activePageValue === "Provider_Score" ? "block" : "hidden"
       } flex justify-between items-center  relative  mb-2  `}
     >
-      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2  w-full ">
+      <div className=" grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-2  w-full  ">
         {/* Calendar */}
 
         <div className="relative">

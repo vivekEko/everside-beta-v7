@@ -63,7 +63,7 @@ function App() {
         {/*Sidebar Overlay */}
         <div
           onClick={() => setHamburgerStatus(!hamburgerStatus)}
-          className={`h-screen w-full fixed bg-[#00000025] z-[20] ${
+          className={`h-screen w-full fixed bg-[#00000025] z-[500] ${
             hamburgerStatus ? "block lg:hidden" : "hidden"
           } xl:hidden`}
         ></div>

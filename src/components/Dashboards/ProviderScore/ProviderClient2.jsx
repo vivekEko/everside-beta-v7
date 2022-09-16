@@ -139,7 +139,7 @@ const ProviderClient2 = () => {
 
   return (
     <div
-      className="relative z-[150] "
+      className="relative z-[10] "
       ref={ref}
       onClick={() => setDatePickerStatus(!setDatePickerStatus)}
     >

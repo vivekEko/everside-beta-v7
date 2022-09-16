@@ -34,6 +34,8 @@ import NSSCard from "../NPS/NPS Overall Dashboard/NSSCard";
 import ProviderTotalCard2 from "./ProviderTotalCard2";
 import ProviderNSS from "./ProviderNSS";
 import ProviderInfo2 from "./ProviderInfo2";
+import ProviderTable from "./ProviderTable";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const ProviderScorePage = () => {
   // Global Variables
@@ -136,44 +138,34 @@ const ProviderScorePage = () => {
   }, [callRegion, usernameLocal]);
 
   return (
-    <div className=" min-h-[90vh]">
-      <ProviderFilter2 />
-      <SelectProvider />
+    <div className=" min-h-[90vh] relative">
+      <div className="sticky top-[50px] z-[300] bg-white pb-1">
+        <ProviderFilter2 />
+        <SelectProvider />
+      </div>
+
       <div className=" ">
         {providerComponentApi ? (
           <div>
             {providerComponentApi?.Message === "TRUE" ? (
               <div className="mt-5">
-                {/* <div className="flex items-center gap-2 flex-col lg:flex-row  ">
-                  <div className="flex flex-col md:flex-row items-center gap-2 flex-1 lg:flex-[0.8] w-full ">
-                    <ProviderInfo />
-                    <div className="h-[300px] flex-1 md:flex-[0.7] border w-full rounded-md">
-                      <ProviderNPS />
-                    </div>
-                  </div>
-                  <ProviderTotalCard2 />
-                </div>
-                <div className="flex  flex-col 2xl:flex-row items-center gap-2 my-2">
-                  <div className="flex-[0.7]">
-                    <ProviderComments />
-                  </div>
-                  <div className=" flex-[0.3] space-y-5 w-full rounded-md">
-                    <NPSCard />
-                    <NSSCard />
-                  </div>
-                </div> */}
-
                 <div>
                   <ProviderInfo2 />
                 </div>
 
-                <div className="mt-5 flex flex-col xl:flex-row gap-5">
+                <div className="mt-5 flex flex-col xl:flex-row gap-5  items-start">
                   <div className="flex-[0.7]">
                     <ProviderComments />
                   </div>
-                  <div className="flex-[0.3] gap-5 flex xl:flex-col">
-                    <ProviderNPS />
-                    <ProviderNSS />
+                  <div className="flex-[0.3] flex flex-col-reverse    ">
+                    <div className="">
+                      <ProviderTable />
+                    </div>
+
+                    <div className="w-full flex flex-col sm:flex-row xl:flex-col gap-5 mb-5  ">
+                      <ProviderNPS />
+                      <ProviderNSS />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -187,7 +179,9 @@ const ProviderScorePage = () => {
           </div>
         ) : (
           <div className="min-h-[80vh]  w-full text-3xl text-gray-400 flex justify-center items-center">
-            Select a provider to display analytics
+            <div className="h-full w-full bg-[#ffffff] z-[200] rounded-lg flex justify-center items-center">
+              <PuffLoader color="#00ac69" size={50} width={300} />
+            </div>
           </div>
         )}
       </div>

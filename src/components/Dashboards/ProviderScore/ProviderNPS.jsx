@@ -46,7 +46,7 @@ const ProviderNPS = () => {
 
   return (
     <div
-      className="p-2 md:p-5  w-full border min-h-[245px]  rounded-lg bg-white flex justify-center md:justify-center items-start relative  "
+      className="p-2 md:p-5  w-full border   rounded-lg bg-white flex justify-center md:justify-center items-start relative  "
       ref={ProviderNPSComponent}
     >
       {!apiData?.nps && (
