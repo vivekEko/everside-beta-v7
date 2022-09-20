@@ -157,15 +157,13 @@ const ProviderScorePage = () => {
                   <div className="flex-[0.7]">
                     <ProviderComments />
                   </div>
-                  <div className="flex-[0.3] flex flex-col-reverse    ">
-                    <div className="">
+                  <div className=" w-[100%] flex xl:flex-[0.3] flex-col-reverse sm:flex  sm:flex-row-reverse xl:flex-col-reverse  gap-5   ">
+                    {/* <div className="">
                       <ProviderTable />
-                    </div>
+                    </div> */}
 
-                    <div className="w-full flex flex-col sm:flex-row xl:flex-col gap-5 mb-5  ">
-                      <ProviderNPS />
-                      <ProviderNSS />
-                    </div>
+                    <ProviderNPS />
+                    <ProviderNSS />
                   </div>
                 </div>
               </div>

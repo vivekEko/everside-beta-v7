@@ -56,7 +56,7 @@ const ProviderNPS = () => {
       )}
 
       {apiData?.nps && (
-        <div className="w-full  relative ">
+        <div className="w-full  relative  ">
           <div className=" font-bold  flex justify-between gap-2 items-center">
             <div className="opacity-80">Net Promoter Score</div>
 
@@ -112,7 +112,7 @@ const ProviderNPS = () => {
               </button>
             </div>
           </div>
-          <div className=" min-h-[170px] flex justify-center items-center">
+          <div className=" min-h-[270px] flex justify-center items-center">
             <div className="flex  justify-center mt-5     gap-3 md:gap-5  ">
               {/* <div className="flex justify-start items-center gap-3 md:gap-5"> */}
 

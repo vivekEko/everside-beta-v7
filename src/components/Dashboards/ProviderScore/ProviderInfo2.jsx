@@ -57,7 +57,7 @@ const ProviderInfo2 = () => {
       </div>
 
       {/* Provider's info */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-8 gap-10 xl:gap-5  p-5 ">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-9 gap-10 xl:gap-5  p-5 ">
         {/* info */}
         <div className=" text-center  ">
           <h1 className="text-gray-500 text-sm">
@@ -91,10 +91,20 @@ const ProviderInfo2 = () => {
 
         {/*NPS Score */}
         <div className="text-center">
-          <h1 className="text-gray-500 text-sm">Average NPS</h1>
+          <h1 className="text-gray-500 text-sm"> NPS</h1>
           <h1 className="text-2xl mt-4">
-            <span> {providerComponentApi?.provider_info?.avg_nps}</span>
-            <span className="text-xs text-gray-500 ">/10</span>
+            <span>
+              {" "}
+              {(providerComponentApi?.provider_info?.avg_nps * 10).toFixed(2)} %
+            </span>
+          </h1>
+        </div>
+
+        {/* Score */}
+        <div className="text-center">
+          <h1 className="text-gray-500 text-sm">Score</h1>
+          <h1 className="text-2xl mt-4">
+            <span>{providerComponentApi?.provider_info?.score}</span>
           </h1>
         </div>
 
@@ -124,7 +134,7 @@ const ProviderInfo2 = () => {
 
         {/* NPS Response */}
         <div className="text-center">
-          <h1 className="text-gray-500 text-sm">Surveys</h1>
+          <h1 className="text-gray-500 text-sm">Survey Count</h1>
           <h1 className="text-2xl mt-4">
             <span>{providerComponentApi?.provider_info?.survey}</span>
           </h1>

@@ -109,7 +109,7 @@ const ProviderNSS = () => {
               </div>
             </div>
           </div>
-          <div className="flex  gap-3 md:gap-5 justify-center items-center  h-[170px]  xl:gap-2 ">
+          <div className="flex  gap-3 md:gap-5 justify-center items-center  h-[270px]  xl:gap-2 ">
             {/* <div className="flex justify-start items-center gap-3 md:gap-5"> */}
 
             <div className="grid grid-cols-4 place-items-center gap-8 ">

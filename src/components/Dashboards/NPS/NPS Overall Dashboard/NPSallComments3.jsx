@@ -458,7 +458,7 @@ const NPSallComments3 = () => {
                                   {data?.topic}
                                 </div>
                                 <div className=" text-gray-400    font-normal ">
-                                  {data?.topic}
+                                  {data?.provider}
                                 </div>
 
                                 <div className=" text-gray-400    font-normal ">
