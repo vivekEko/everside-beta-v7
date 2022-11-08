@@ -89,8 +89,8 @@ const ProviderCalendar2 = () => {
   const [val, setVal] = useState([finalStartDate, finalEndDate]);
   const [startMonthVal, setStartMonthVal] = useState("Jan");
   const [startMonthNumVal, setStartMonthNumVal] = useState("1");
-  const [endMonthVal, setEndMonthVal] = useState("Aug");
-  const [endMonthNumVal, setEndMonthNumVal] = useState(8);
+  const [endMonthVal, setEndMonthVal] = useState("Oct");
+  const [endMonthNumVal, setEndMonthNumVal] = useState(10);
   const [usernameLocal, setUsernameLocal] = useState();
 
   useEffect(() => {
@@ -130,7 +130,7 @@ const ProviderCalendar2 = () => {
     setVal(item);
   };
   return (
-    <div className="bg-white p-5 rounded-lg  shadow-2xl mt-4 w-[100%] sm:min-w-[340px]  ">
+    <div className="bg-white p-5 rounded-lg  shadow-2xl mt-4 w-[100%] sm:min-w-[340px]">
       <div className="flex justify-between items-center mb-5">
         <h1 className="text-[18px] opacity-80 ">Select Date</h1>
         <img
