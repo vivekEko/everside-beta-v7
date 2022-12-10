@@ -14,6 +14,9 @@ import axios from "axios";
 import selectedProviderAtom from "../../../recoil/atoms/selectedProviderAtom";
 import regionStatusProvider from "../../../recoil/atoms/regionStatusProvider";
 import providersApiDataProviderPage from "../../../recoil/atoms/providersApiDataProviderPage";
+import { PuffLoader } from "react-spinners";
+import RefreshRoundedIcon from "@mui/icons-material/RefreshRounded";
+import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
 
 const SelectProvider = () => {
   // Global Variables
@@ -48,7 +51,7 @@ const SelectProvider = () => {
   const [inputData, setInputData] = useState("");
 
   const [usernameLocal, setUsernameLocal] = useState();
-  const [sendEmail, setSendEmail] = useState(0);
+  const [sendEmail, setSendEmail] = useState("initial");
 
   // getting username from session storage
   useEffect(() => {
@@ -59,11 +62,6 @@ const SelectProvider = () => {
   const handleInput = (e) => {
     setInputData(e.target.value);
   };
-
-  useEffect(() => {
-    console.log("selected hai yeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-    console.log(selectedProvider);
-  }, [selectedProvider]);
 
   // Click outside to close filter functionality
   const closeToggle = () => {
@@ -103,50 +101,11 @@ const SelectProvider = () => {
           }
         )
         .then((res) => {
-          console.log("provider submit api res.............................:");
-          console.log(res?.data);
           setProviderComponentApi(res?.data);
           setAllDataRecievedStatus(true);
         });
     }
   }, [selectedProvider]);
-
-  // useEffect(() => {
-  //   if (selectedProvider) {
-  //     // setAllDataRecievedStatus(false);
-
-  //     // adding username in form data
-  //     const formdata = new FormData();
-  //     formdata.append("username", usernameLocal);
-  //     const ProviderEmailcall = axios
-  //       .post(
-  //         BASE_API_LINK +
-  //           "providerEmail?start_month=" +
-  //           finalStartMonth +
-  //           "&start_year=" +
-  //           finalStartDate +
-  //           "&end_month=" +
-  //           finalEndMonth +
-  //           "&end_year=" +
-  //           finalEndDate +
-  //           "&provider=" +
-  //           selectedProvider,
-  //         formdata,
-  //         {
-  //           headers: {
-  //             authorization: sessionStorage.getItem("token"),
-  //             Accept: "application/json",
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         console.log("provider email api res:");
-  //         console.log(res?.data);
-  //         // setProviderComponentApi(res?.data);
-  //         // setAllDataRecievedStatus(true);
-  //       });
-  //   }
-  // }, [sendEmail]);
 
   return (
     <div className=" mb-2">
@@ -223,22 +182,6 @@ overflow-y-scroll"
                         <label
                           htmlFor={data}
                           className="text-sm ml-5"
-                          //   onClick={() => {
-                          //     {
-                          //       if (providerLocal?.includes(data)) {
-                          //         console.log(data + " already exits");
-                          //         setProviderLocal((providerLocal) =>
-                          //           arrayRemove(providerLocal, data)
-                          //         );
-                          //       } else {
-                          //         setProviderLocal((providerLocal) => [
-                          //           ...providerLocal,
-                          //           data,
-                          //         ]);
-                          //       }
-                          //     }
-                          //   }}
-
                           onClick={() => {
                             if (selectedProvider === data) {
                               setSelectedProvider(null);
@@ -268,16 +211,51 @@ flex justify-center items-center"
           </div>
         </div>
 
-        <div className="hidden">
+        <div className="">
           <div
-            onClick={() => setSendEmail(!sendEmail)}
+            onClick={() => {
+              setSendEmail("sending");
+              axios
+                .post(
+                  BASE_API_LINK +
+                    "providerEmail?start_month=" +
+                    finalStartMonth +
+                    "&start_year=" +
+                    finalStartDate +
+                    "&end_month=" +
+                    finalEndMonth +
+                    "&end_year=" +
+                    finalEndDate +
+                    "&provider=" +
+                    selectedProvider
+                )
+                .then((res) => {
+                  if (res?.data?.Message === "TRUE") {
+                    setTimeout(() => {
+                      setSendEmail("initial");
+                    }, 3000);
+                  }
+                  setSendEmail("sent");
+
+                  console.log("provider email report sent ");
+                  console.log(res?.data);
+                });
+            }}
             className={` ${
               selectedProvider
                 ? "bg-[#00ac69] active:scale-95 cursor-pointer"
                 : "bg-gray-300 cursor-not-allowed"
-            } p-3  text-white rounded-md transition  `}
+            } p-3  text-white rounded-md transition-all duration-300 `}
           >
-            Send Report
+            {sendEmail === "initial" && <h1>Send Email</h1>}
+            {sendEmail === "sending" && (
+              <RefreshRoundedIcon className=" animate-spin " />
+            )}
+            {sendEmail === "sent" && (
+              <h1>
+                Email Sent <DoneRoundedIcon />
+              </h1>
+            )}
           </div>
         </div>
       </div>
