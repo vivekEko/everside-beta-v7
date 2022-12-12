@@ -196,10 +196,10 @@ const Admin = () => {
   };
 
   return (
-    <div className="bg-white p-4 z-[3000] rounded-md  transition-all modal-animation   max-w-[900px] relative overflow-hidden">
+    <div className="bg-white p-4  rounded-md  transition-all modal-animation   max-w-[900px] relative overflow-hidden">
       {/* confirmation overlay */}
       <div
-        className={`bg-white shadow-2xl p-5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded  absolute border-gray-400 border ${
+        className={`bg-white shadow-2xl p-5 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] rounded z-[9000]  fixed border-gray-400 border ${
           deleteModal ? "block" : "hidden"
         }`}
       >
