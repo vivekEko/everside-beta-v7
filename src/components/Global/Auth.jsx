@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import CompanyLogo from "../../assets/img/global-img/everside_logo.svg";
+import CompanyLogo from "../../assets/img/global-img/eko-logo-full.png";
 import UserAuthAtom from "../../recoil/atoms/UserAuthAtom";
 import { BASE_API_LINK } from "../../utils/BaseAPILink";
 import UserValidity from "../../recoil/atoms/UserValidity";
@@ -97,9 +97,9 @@ const Auth = () => {
       <div className="p-[20px]  text-center bg-white rounded-lg drop-shadow-lg w-[90%] max-w-[300px]">
         <div className="flex justify-center  mb-[50px]">
           <img
-            className="h-[80px] w-[200px]  grayscale-[40%]"
+            className=" w-[200px]  grayscale-[40%]"
             src={CompanyLogo}
-            alt="Everside Logo"
+            alt="EKO Logo"
           />
         </div>
 

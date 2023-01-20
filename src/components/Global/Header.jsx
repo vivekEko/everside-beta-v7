@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CompanyImage from "../../assets/img/global-img/everside_logo.svg";
+import CompanyImage from "../../assets/img/global-img/eko-logo.png";
 import logout from "../../assets/img/global-img/logout.svg";
 import { useRecoilState } from "recoil";
 import hamburgerStatusRecoil from "../../recoil/atoms/HamburgerAtom";
@@ -54,8 +54,8 @@ const Header = () => {
         <div>
           <img
             src={CompanyImage}
-            alt="Everside Logo"
-            className=" w-[135px]"
+            alt="EKO Logo"
+            className=" w-[55px]"
             onClick={() => window.location.reload(false)}
           />
         </div>

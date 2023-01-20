@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import UserValidity from "../../recoil/atoms/UserValidity";
 import NPSDashboard from "../Dashboards/NPS/NPS Overall Dashboard/NPSDashboard";
 import Auth from "./Auth";
-import EKO from "../../assets/img/global-img/ekoLogo.png";
+import EKO from "../../assets/img/global-img/eko-logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Home = () => {
