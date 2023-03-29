@@ -143,7 +143,7 @@ const CustomCalendar4 = () => {
           <div className="w-[90%] mx-auto">
             <YearSlider
               value={val}
-              min={2018}
+              min={2021}
               max={2022}
               onChange={updateVal}
               valueLabelDisplay="auto"
